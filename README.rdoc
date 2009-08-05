@@ -1,18 +1,8 @@
-= shippinglogic
+= Shippinglogic
 
-Description goes here.
+The goal of this library is to provide simple and straight forward interfaces to the various shipping web services: FedEx, UPS, USPS, etc. (Only FedEx is supported at this time)
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but
-   bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+This is *not* a shipping abstraction layer, meaning there will be differences in how the classes are used. In my opinion, this is the best way to approach this because there are too many differences between the services. Trying to create an abstraction layer significantly limits the feature set that each carrier offers. Instead, this is a collection of libraries where each classes' core focus is to give you simple and *complete* access to the web service at hand.
 
-== Copyright
 
-Copyright (c) 2009 binarylogic. See LICENSE for details.
+More documentation and examples will come in the next week or so. I want to mature the library a little more.

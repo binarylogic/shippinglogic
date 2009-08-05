@@ -5,12 +5,14 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "shippinglogic"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "A simple and clean library to interface with shipping carriers"
+    gem.description = "A simple and clean library to interface with shipping carriers"
     gem.email = "bjohnson@binarylogic.com"
     gem.homepage = "http://github.com/binarylogic/shippinglogic"
-    gem.authors = ["binarylogic"]
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.authors = ["Ben Johnson of Binary Logic"]
+    gem.rubyforge_project = "shippinglogic"
+    gem.add_dependency "builder", ">= 2.1.2"
+    gem.add_dependency "httparty", ">= 0.4.4"
   end
 
 rescue LoadError
