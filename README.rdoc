@@ -37,17 +37,17 @@ What's unique about this library is it's usage / syntax. Let me show you...
 
 === Calls to the web services are lazy
 
-A simple example:
+A simple example where we want to track a FedEx package:
 
   fedex = Shippinglogic::FedEx.new(key, password, account, meter) # all credentials FedEx requires
   tracking = fedex.track(:tracking_number => "077973360403984")
 
-Now here is why this is cool. Nothing has happened yet. No call has been made to the FedEx web services, etc. We do this because we don't need it yet. You don't need it until you start using the object. Lets continue with our example:
+Now here is why this is cool. Nothing has happened yet. No call has been made to the FedEx servers, etc. We do this because we don't need it yet. You don't need it until you start using the object. Lets continue with our example:
 
   tracking.first  # call is made to FedEx and returns the first tracking result in the array
   tracking.size   # cache is used to determine the size of the array
 
-This is similar to how ActiveRecord's association proxies work. When you call user.orders no database activity occurs until you use the object.
+This is similar to how ActiveRecord's association proxies work. When you call user.orders no database activity occurs until you actually use the object.
 
 === Flexibility
 
@@ -71,6 +71,19 @@ You will notice above we assign the result of the 'track' method to a variable c
   # Mass attribute reading
   tracking.attributes
   # => {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
+
+== Available services and their features
+
+This library is still very new, as a result only FedEx is support at this time. More will come.
+
+=== FedEx
+
+1. <b>Tracking</b> - See Shippinglogic::Fedex::Track
+1. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rates
+
+== Add your own services
+
+Simply fork the project and make your changes. If you want to add support for a new service it should be fairly straight forward. Checkout the code in Shippinglogic::Fedex::Track, it very simple and easy to follow. It's a great place to start because its the simplest of services.
 
 == Interface integration
 
@@ -109,12 +122,6 @@ Then your results:
       .occured_at= event.occured_at.to_s(:long)
       .location== #{event.city}, #{event.state} #{event.postal_code}, #{event.country}
       .residential= event.residential ? "Yes" : "No"
-
-== Supported services
-
-This library is still very new, I plan to support more services as the library grows, but here is a break down of what it supports:
-
-1. FedEx: rating, tracking, creating new shipments (with labels), canceling shipments
 
 == Copyright
 
