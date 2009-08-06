@@ -11,7 +11,7 @@ begin
     gem.homepage = "http://github.com/binarylogic/shippinglogic"
     gem.authors = ["Ben Johnson of Binary Logic"]
     gem.rubyforge_project = "shippinglogic"
-    gem.add_dependency "builder", ">= 2.1.2"
+    gem.add_dependency "activesupport", ">= 2.2.0"
     gem.add_dependency "httparty", ">= 0.4.4"
   end
 
@@ -31,23 +31,15 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
-
-
-
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  if File.exist?('VERSION.yml')
-    config = YAML.load(File.read('VERSION.yml'))
-    version = "#{config[:major]}.#{config[:minor]}.#{config[:patch]}"
-  else
-    version = ""
+begin
+  require 'rake/contrib/sshpublisher'
+  namespace :rubyforge do
+    desc "Release gem to RubyForge"
+    task :release => ["rubyforge:release:gem"]
   end
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "shippinglogic #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+rescue LoadError
+  puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
 end
 

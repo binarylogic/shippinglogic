@@ -81,7 +81,7 @@ This library is still very new, as a result only FedEx is support at this time. 
 1. <b>Tracking</b> - See Shippinglogic::Fedex::Track
 1. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rates
 
-== Add your own services
+=== Add your own services
 
 Simply fork the project and make your changes. If you want to add support for a new service it should be fairly straight forward. Checkout the code in Shippinglogic::Fedex::Track, it very simple and easy to follow. It's a great place to start because its the simplest of services.
 
