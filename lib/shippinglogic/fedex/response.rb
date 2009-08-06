@@ -1,11 +1,12 @@
 module Shippinglogic
-  class Fedex
+  class FedEx
     # Methods relating to receiving a response from FedEx and cleaning it up.
     module Response
       private
+        # Overwriting the request method to clean the response and handle errors.
         def request(*args)
           response = clean_response(super)
-
+          
           if success?(response)
             response
           else
@@ -24,7 +25,7 @@ module Shippinglogic
           cut_to_the_chase(sanitize_response_keys(response))
         end
         
-        # Fedex likes nested XML tags, because they send quite a bit of them back in responses.
+        # FedEx likes nested XML tags, because they send quite a bit of them back in responses.
         # This method just 'cuts to the chase' and get to the heart of the response.
         def cut_to_the_chase(response)
           if response.is_a?(Hash) && response.keys.first && response.keys.first.to_s =~ /_reply(_details)?$/
@@ -48,7 +49,7 @@ module Shippinglogic
           end
         end
 
-        # Fedex returns a SOAP response. I just want the plain response without all of the SOAP BS.
+        # FedEx returns a SOAP response. I just want the plain response without all of the SOAP BS.
         # It basically turns this:
         #
         #   {"v3:ServiceInfo" => ...}
@@ -60,7 +61,7 @@ module Shippinglogic
         # I also did not want to use the underscore method provided by ActiveSupport because I am trying
         # to avoid using that as a dependency.
         def sanitize_response_key(key)
-          key.to_s.gsub(/^(v[0-9]|ns):/, "").gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').gsub(/([a-z\d])([A-Z])/,'\1_\2').tr("-", "_").downcase.to_sym
+          key.to_s.gsub(/^(v[0-9]|ns):/, "").underscore.to_sym
         end
     end
   end

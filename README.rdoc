@@ -2,7 +2,120 @@
 
 The goal of this library is to provide simple and straight forward interfaces to the various shipping web services: FedEx, UPS, USPS, etc. (Only FedEx is supported at this time)
 
-This is *not* a shipping abstraction layer, meaning there will be differences in how the classes are used. In my opinion, this is the best way to approach this because there are too many differences between the services. Trying to create an abstraction layer significantly limits the feature set that each carrier offers. Instead, this is a collection of libraries where each classes' core focus is to give you simple and *complete* access to the web service at hand.
+== Helpful links
 
+* <b>Documentation:</b> http://rdoc.info/projects/binarylogic/shippinglogic
+* <b>Repository:</b> http://github.com/binarylogic/shippinglogic/tree/master
+* <b>Bugs / feature suggestions:</b> http://binarylogic.lighthouseapp.com/projects/16601-searchlogic
+* <b>Google group:</b> http://groups.google.com/group/shippinglogic
 
-More documentation and examples will come in the next week or so. I want to mature the library a little more.
+<b>Before contacting me directly, please read:</b>
+
+If you find a bug or a problem please post it on lighthouse. If you need help with something, please use google groups. I check both regularly and get emails when anything happens, so that is the best place to get help. This also benefits other people in the future with the same questions / problems. Thank you.
+
+== Install & use
+
+Install the gem from rubyforge:
+
+  sudo gem install shippinglogic
+
+Or from github:
+
+  sudo gem install binarylogic-shippinglogic
+
+Now just include it in your project and you are ready to go.
+
+You can also install this as a plugin:
+
+  script/plugin install git://github.com/binarylogic/shippinglogic.git
+
+See below for usage examples.
+
+== Usage
+
+What's unique about this library is it's usage / syntax. Let me show you...
+
+=== Calls to the web services are lazy
+
+A simple example:
+
+  fedex = Shippinglogic::FedEx.new(key, password, account, meter) # all credentials FedEx requires
+  tracking = fedex.track(:tracking_number => "077973360403984")
+
+Now here is why this is cool. Nothing has happened yet. No call has been made to the FedEx web services, etc. We do this because we don't need it yet. You don't need it until you start using the object. Lets continue with our example:
+
+  tracking.first  # call is made to FedEx and returns the first tracking result in the array
+  tracking.size   # cache is used to determine the size of the array
+
+This is similar to how ActiveRecord's association proxies work. When you call user.orders no database activity occurs until you use the object.
+
+=== Flexibility
+
+You will notice above we assign the result of the 'track' method to a variable called 'tracking'. That object has more to it:
+
+  # Initializing
+  tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXX")
+  tracking.tracking_number
+  # => "XXXXXXXXXXXXX"
+  
+  # Attribute accessors
+  tracking.tracking_number = "YYYYYYYYYYYYYYY"
+  tracking.tracking_number
+  # => "YYYYYYYYYYYYYYY"
+  
+  # Mass attribute setting
+  tracking.attributes = {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
+  tracking.tracking_number
+  # => "ZZZZZZZZZZZZZZZZ"
+  
+  # Mass attribute reading
+  tracking.attributes
+  # => {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
+
+== Interface integration
+
+What's nice about having an object is that you can pass it around. Let's say you wanted to allow people to track their packages:
+
+  class TrackingController < ApplicationController
+    def new
+      @tracking = fedex.track(params[:tracking])
+    end
+    
+    def create
+      @tracking = fedex.track(params[:tracking])
+      render :action => :new if !@tracking.successful?
+    end
+    
+    private
+      def fedex
+        @fedex ||= Shippinglogic::FedEx.new(key, password, account, meter)
+      end
+  end
+
+That's pretty simple. Now check out your form:
+  
+  # new.html.haml
+  - form_for @tracking do |f|
+    = f.error_messages
+    = f.text_field :tracking_number
+    = f.submit "Track"
+
+Then your results:
+
+  # create.html.haml
+  - @tracking.each do |event|
+    .event
+      .name= event.name
+      .occured_at= event.occured_at.to_s(:long)
+      .location== #{event.city}, #{event.state} #{event.zip}, #{event.country}
+      .residential= event.residential ? "Yes" : "No"
+
+== Supported services
+
+This library is still very new, I plan to support more services as the library grows, but here is a break down of what it supports:
+
+1. FedEx: rating, tracking, creating new shipments (with labels), canceling shipments
+
+== Copyright
+
+Copyright (c) 2009 {Ben Johnson of Binary Logic}[http://www.binarylogic.com], released under the MIT license  

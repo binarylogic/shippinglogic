@@ -8,7 +8,7 @@ require 'ruby-debug'
 require 'fakeweb'
 require File.dirname(__FILE__) + "/lib/interceptor"
 
-Shippinglogic::Fedex.options[:test] = true
+Shippinglogic::FedEx.options[:test] = true
 
 Spec::Runner.configure do |config|
   config.before(:each) do
@@ -20,7 +20,7 @@ Spec::Runner.configure do |config|
   end
   
   def new_fedex
-    Shippinglogic::Fedex.new(
+    Shippinglogic::FedEx.new(
       fedex_credentials["key"],
       fedex_credentials["password"],
       fedex_credentials["account"],
@@ -46,32 +46,30 @@ Spec::Runner.configure do |config|
   
   def fedex_shipper
     {
-      :street_lines => "260 Broadway",
-      :city => "New York",
-      :state_or_province_code => "NY",
-      :postal_code => "10007",
-      :country_code => "US"
+      :shipper_streets => "260 Broadway",
+      :shipper_city => "New York",
+      :shipper_state => "NY",
+      :shipper_zip => "10007",
+      :shipper_country => "US"
     }
   end
   
   def fedex_recipient
     {
-      :street_lines => "1500 Marilla Street",
-      :city => "Dallas",
-      :state_or_province_code => "TX",
-      :postal_code => "75201",
-      :country_code => "US"
+      :recipient_streets => "1500 Marilla Street",
+      :recipient_city => "Dallas",
+      :recipient_state => "TX",
+      :recipient_zip => "75201",
+      :recipient_country => "US"
     }
   end
   
   def fedex_package
     {
-      :weight => {:value => 2},
-      :dimensions => {
-        :length => 2,
-        :width => 2,
-        :height => 2
-      }
+      :weight => 2,
+      :length => 2,
+      :width => 2,
+      :height => 2
     }
   end
   

@@ -1,6 +1,6 @@
 module Shippinglogic
-  class Fedex
-    # If Fedex responds with an error, we try our best to pull the pertinent information out of that
+  class FedEx
+    # If FedEx responds with an error, we try our best to pull the pertinent information out of that
     # response and raise it with this object. Any time FedEx says there is a problem an object of this
     # class will be raised.
     #
@@ -10,7 +10,7 @@ module Shippinglogic
     #
     #   begin
     #     # my fedex code
-    #   rescue Shippinglogic::Fedex::Error => e
+    #   rescue Shippinglogic::FedEx::Error => e
     #     # do whatever you want here, just do:
     #     # e.response
     #     # to get the raw response from fedex
@@ -22,9 +22,9 @@ module Shippinglogic
         self.response = response
         
         if response.blank?
-          self.message = "The response from Fedex was blank."
+          self.message = "The response from FedEx was blank."
         elsif !response.is_a?(Hash)
-          self.message = "The response from Fedex was malformed and was not in a valid XML format."
+          self.message = "The response from FedEx was malformed and was not in a valid XML format."
         elsif notifications = response[:notifications]
           self.code = notifications[:code]
           self.message = notifications[:message]

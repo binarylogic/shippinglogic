@@ -1,24 +1,14 @@
 require "shippinglogic/fedex/error"
-require "shippinglogic/fedex/request"
-require "shippinglogic/fedex/response"
-require "shippinglogic/fedex/rate"
+require "shippinglogic/fedex/service"
+require "shippinglogic/fedex/rates"
 require "shippinglogic/fedex/track"
 
 module Shippinglogic
-  # An interface to the various Fedex web services.
-  class Fedex
-    include HTTParty
-    include Request
-    include Response
-    include Rate
-    include Track
-    
-    def self.request(body) # :nodoc:
-      post(options[:test] ? options[:test_url] : options[:production_url], :body => body)
-    end
-    
-    # A hash containing various configuration options. If you are using this in a Rails app the best place
-    # to modify or change these options is either in an initializer or your specific environment file.
+  class FedEx
+    # A hash representing default the options. If you are using this in a Rails app the best place
+    # to modify or change these options is either in an initializer or your specific environment file. Keep
+    # in mind that these options can be modified on the instance level when creating an object. See #initialize
+    # for more details.
     #
     # === Options
     #
@@ -34,9 +24,9 @@ module Shippinglogic
         :test_url => "https://gatewaybeta.fedex.com:443/xml"
       }
     end
-    
-    attr_accessor :key, :password, :account, :meter
-    
+  
+    attr_accessor :key, :password, :account, :meter, :options
+  
     # Before you can use the FedEx web services you need to provide 4 credentials:
     #
     # 1. Your fedex web service key
@@ -51,11 +41,24 @@ module Shippinglogic
     # If for some reason this link no longer works because FedEx changed it, just go to the
     # developer resources area and then navigate to the FedEx web services for shipping area. Once
     # there you should see a link to apply for a develop test key.
-    def initialize(key, password, account, meter)
+    #
+    # The last parameter allows you to modify the class options on an instance level. It accepts the
+    # same options that the class level method #options accepts. If you don't want to change any of
+    # them, don't supply this parameter.
+    def initialize(key, password, account, meter, options = {})
       self.key = key
       self.password = password
       self.account = account
       self.meter = meter
+      self.options = self.class.options.merge(options)
+    end
+    
+    def rates(attributes = {})
+      @rates ||= Rates.new(self, attributes)
+    end
+    
+    def track(attributes = {})
+      @track ||= Track.new(self, attributes)
     end
   end
 end
