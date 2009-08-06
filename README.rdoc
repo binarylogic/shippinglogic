@@ -74,7 +74,7 @@ You will notice above we assign the result of the 'track' method to a variable c
 
 == Interface integration
 
-What's nice about having an object is that you can pass it around. Let's say you wanted to allow people to track their packages:
+What's nice about having an object is that you can pass it around. Let's say you wanted to add simple FedEx tracking functionality to your app:
 
   class TrackingController < ApplicationController
     def new
@@ -107,7 +107,7 @@ Then your results:
     .event
       .name= event.name
       .occured_at= event.occured_at.to_s(:long)
-      .location== #{event.city}, #{event.state} #{event.zip}, #{event.country}
+      .location== #{event.city}, #{event.state} #{event.postal_code}, #{event.country}
       .residential= event.residential ? "Yes" : "No"
 
 == Supported services

@@ -1,12 +1,61 @@
 module Shippinglogic
   class FedEx
-    # An interface to the rate services provided by FedEx.
+    # An interface to the rate services provided by FedEx. Allows you to get an array of rates from fedex for a shipment,
+    # or a single rate for a specific service.
+    #
+    # == Accessor methods / options
+    #
+    # * <tt>shipper_streets</tt> - street part of the address, separate multiple streets with a new line, dont include blank lines.
+    # * <tt>shipper_city</tt> - city part of the address.
+    # * <tt>shipper_state_</tt> - state part of the address, use state abreviations.
+    # * <tt>shipper_postal_code</tt> - postal code part of the address. Ex: zip for the US.
+    # * <tt>shipper_country</tt> - country code part of the address, use abbreviations, ex: 'US'
+    # * <tt>shipper_residential</tt> - a boolean value representing if the address is redential or not (default: false)
+    # * <tt>recipient_streets</tt> - street part of the address, separate multiple streets with a new line, dont include blank lines.
+    # * <tt>recipient_city</tt> - city part of the address.
+    # * <tt>recipient_state</tt> - state part of the address, use state abreviations.
+    # * <tt>recipient_postal_code</tt> - postal code part of the address. Ex: zip for the US.
+    # * <tt>recipient_country</tt> - country code part of the address, use abbreviations, ex: 'US'
+    # * <tt>recipient_residential</tt> - a boolean value representing if the address is redential or not (default: false)
+    # * <tt>service_type</tt> - one of SERVICE_TYPES, this is optional, leave this blank if you want a list of all
+    #   available services. (default: nil)
+    # * <tt>packaging_type</tt> - one of PACKAGE_TYPES. (default: YOUR_PACKAGING)
+    # * <tt>packages</tt> - an array of packages included in the shipment. This should be an array of hashes with the following keys:
+    #   * <tt>:weight</tt> - the weight
+    #   * <tt>:weight_units</tt> - either LB or KG. (default: LB)
+    #   * <tt>:length</tt> - the length.
+    #   * <tt>:width</tt> - the width.
+    #   * <tt>:height</tt> - the height.
+    #   * <tt>:dimension_units</tt> - either IN or CM. (default: IN)
+    # * <tt>ship_time</tt> - a Time object representing when you want to ship the package. (default: Time.now)
+    # * <tt>dropoff_type</tt> - one of DROP_OFF_TYPES. (default: REGULAR_PICKUP)
+    # * <tt>include_transit_times</tt> - whether or not to include estimated transit times. (default: true)
+    # * <tt>delivery_deadline</tt> - whether or not to include estimated transit times. (default: true)
+    # * <tt>special_services_requested</tt> - any exceptions or special services FedEx needs to be aware of, this should be
+    #   one or more of SPECIAL_SERVICES. (default: nil)
+    # * <tt>currency_type</tt> - the type of currency. (default: nil, because FedEx will default to your account preferences)
+    # * <tt>rate_request_types</tt> - one or more of RATE_REQUEST_TYPES. (default: ACCOUNT)
+    # * <tt>insured_value</tt> - the value you want to insure, if any. (default: nil)
+    # * <tt>payment_type</tt> - one of PAYMENT_TYPES. (default: SENDER)
+    # * <tt>payor_account_number</tt> - if the account paying for this ship is different than the account you specified then
+    #   you can specify that here. (default: nil)
+    # * <tt>payor_country</tt> - the country code for the account number. (default: US)
+    #
+    # === Simple Example
+    #
+    # Here is a very simple example. Mix and match the options above to get more accurate rates:
+    #
+    #   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
+    #   fedex.rates(
+    #     :shipper_postal_code => "10007",
+    #     :shipper_country => "US",
+    #     :recipient_postal_code => "75201",
+    #     :recipient_country_code => "US"
+    #     :packages => [{:weight => 24, :length => 12, :width => 12, :height => 12}]
+    #   )
     class Rates < Service
+      # Each rate result is an object of this class
       class Rate; attr_accessor :name, :type, :saturday, :deadline, :cost, :currency; end
-      
-      include HTTParty
-      include Request
-      include Response
       
       VERSION = {:major => 6, :intermediate => 0, :minor => 0}
       DROP_OFF_TYPES = ["REGULAR_PICKUP", "REQUEST_COURIER", "DROP_BOX", "BUSINESS_SERVICE_CENTER", "STATION"]
@@ -30,14 +79,14 @@ module Shippinglogic
       attribute :shipper_streets,             :string
       attribute :shipper_city,                :string
       attribute :shipper_state,               :string
-      attribute :shipper_zip,                 :string
+      attribute :shipper_postal_code,         :string
       attribute :shipper_country,             :string
       attribute :shipper_residential,         :boolean,     :default => false
       
       attribute :recipient_streets,           :string
       attribute :recipient_city,              :string
       attribute :recipient_state,             :string
-      attribute :recipient_zip,               :string
+      attribute :recipient_postal_code,       :string
       attribute :recipient_country,           :string
       attribute :recipient_residential,       :boolean,     :default => false
       
@@ -54,78 +103,9 @@ module Shippinglogic
       attribute :insured_value,               :big_decimal
       attribute :payment_type,                :string,      :default => "SENDER"
       attribute :payor_account_number,        :string
-      attribute :payor_country_code,          :string
+      attribute :payor_country,               :string,      :default => "US"
       
       private
-        # This method can return all of the available services with their rates, transit times, etc. It can also
-        # return information on a specific fedex service.
-        #
-        # === Options
-        #
-        # * <tt>:shipper</tt> - a hash of address information.
-        #   * <tt>:street_lines</tt> - street part of the address, separate multiple streets with a new line, dont include blank lines.
-        #   * <tt>:city</tt> - city part of the address.
-        #   * <tt>:state_or_province_code</tt> - state part of the address, use state abreviations.
-        #   * <tt>:postal_code</tt> - post code part of the address, zip for the US.
-        #   * <tt>:country_code</tt> - country code part of the address, use abbreviations, ex: 'US'
-        #   * <tt>:residential</tt> - a boolean value representing if the address is redential or not (default: nil)
-        # * <tt>:recipient</tt> - a hash of address information.
-        #   * <tt>:street_lines</tt> - street part of the address, separate multiple streets with a new line, dont include blank lines.
-        #   * <tt>:city</tt> - city part of the address.
-        #   * <tt>:state_or_province_code</tt> - state part of the address, use state abreviations.
-        #   * <tt>:postal_code</tt> - post code part of the address, zip for the US.
-        #   * <tt>:country_code</tt> - country code part of the address, use abbreviations, ex: 'US'
-        #   * <tt>:residential</tt> - a boolean value representing if the address is redential or not (default: nil)
-        # * <tt>:service_type</tt> - one of SERVICE_TYPES, this is optional, leave this blank if you want a list of all
-        #   available services. (default: nil)
-        # * <tt>:packaging_type</tt> - one of PACKAGE_TYPES. (default: YOUR_PACKAGING)
-        # * <tt>:packages</tt> - an array of packages included in the shipment. This is optional and should default to whatever your packing
-        #   type default is in your FedEx account. I am also fairly confident this is only required when using YOUR_PACKAGING as your
-        #   packaging type. This should be an array of hashes with the following structure:
-        #   * <tt>:weight</tt> - a hash of details about a single package weight
-        #     * <tt>:units</tt> - either LB or KG. (default: LB)
-        #     * <tt>:value</tt> - the weight
-        #   * <tt>:dimensions</tt> - a hash of details about a single package dimensions
-        #     * <tt>:units</tt> - either IN or CM. (default: IN)
-        #     * <tt>:length</tt> - the length
-        #     * <tt>:width</tt> - the width
-        #     * <tt>:height</tt> - the height
-        # * <tt>:ship_time</tt> - a Time object representing when you want to ship the package. (default: Time.now)
-        # * <tt>:dropoff_type</tt> - one of DROP_OFF_TYPES. (default: REGULAR_PICKUP)
-        # * <tt>:include_transit_times</tt> - whether or not to include estimated transit times. (default: true)
-        # * <tt>:delivery_deadline</tt> - whether or not to include estimated transit times. (default: true)
-        # * <tt>:special_services_requested</tt> - any exceptions or special services FedEx needs to be aware of, this should be
-        #   one or more of SPECIAL_SERVICES. (default: nil)
-        # * <tt>:currency_type</tt> - the type of currency. (default: nil, because FedEx will default to your account preferences)
-        # * <tt>:rate_request_types</tt> - one or more of RATE_REQUEST_TYPES. (default: ACCOUNT)
-        # * <tt>:insured_value</tt> - the value you want to insure, if any. (default: nil)
-        # * <tt>:payment_type</tt> - one of PAYMENT_TYPES. (default: SENDER)
-        # * <tt>:payor</tt> - this is optional, if the person paying for the shipment is different than the account you specify
-        #   then you can specify that information here. This should be a hash with the following elements. (default: nil)
-        #   * <tt>:account_number</tt> - the FedEx account number of the company paying for this shipment.
-        #   * <tt>:country_code</tt> - the country code for the account number. Ex: 'US'
-        #
-        # === Simple Example
-        #
-        # Here is a very simple example. Mix and match the options above to get more accurate rates:
-        #
-        #   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
-        #   fedex.available_services(
-        #     :shipper => {
-        #       :postal_code => "10007",
-        #       :country_code => "US"
-        #     },
-        #     :recipient => {
-        #       :postal_code => "75201",
-        #       :country_code => "US"
-        #     },
-        #     :packages => [
-        #       {
-        #         :weight => {:value => 24},
-        #         :dimensions => {:length => 12, :width => 12, :height => 12}
-        #       }
-        #     ]
-        #   )
         def target
           @target ||= parse_rate_response(request(build_rate_request))
         end
@@ -146,7 +126,15 @@ module Shippinglogic
               b.TotalInsuredValue insured_value if insured_value
               b.Shipper { build_address(b, :shipper) }
               b.Recipient { build_address(b, :recipient) }
-              b.ShippingChargesPayment { b.PaymentType payment_type }
+              b.ShippingChargesPayment do
+                b.PaymentType payment_type
+                if payor_account_number && payor_country_code
+                  b.Payor do
+                    b.AccountNumber payor_account_number
+                    b.CountryCode payor_country
+                  end
+                end
+              end
               b.RateRequestTypes rate_request_types.join(",")
               b.PackageCount packages.size
               b.PackageDetail "INDIVIDUAL_PACKAGES"
@@ -161,7 +149,7 @@ module Shippinglogic
             b.StreetLines send("#{type}_streets") if send("#{type}_streets")
             b.City send("#{type}_city") if send("#{type}_city")
             b.StateOrProvinceCode send("#{type}_state") if send("#{type}_state")
-            b.PostalCode send("#{type}_zip") if send("#{type}_zip")
+            b.PostalCode send("#{type}_postal_code") if send("#{type}_postal_code")
             b.CountryCode send("#{type}_country") if send("#{type}_country")
             b.Residential send("#{type}_residential")
           end

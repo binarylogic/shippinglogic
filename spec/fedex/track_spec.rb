@@ -13,7 +13,7 @@ describe "FedEx Track" do
     event.occured_at.should == Time.parse("Mon Dec 08 10:43:37 -0500 2008")
     event.city.should == "Sacramento"
     event.state.should == "CA"
-    event.zip.should == "95817"
+    event.postal_code.should == "95817"
     event.country.should == "US"
     event.residential.should == false
   end

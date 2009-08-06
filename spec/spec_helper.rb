@@ -49,7 +49,7 @@ Spec::Runner.configure do |config|
       :shipper_streets => "260 Broadway",
       :shipper_city => "New York",
       :shipper_state => "NY",
-      :shipper_zip => "10007",
+      :shipper_postal_code => "10007",
       :shipper_country => "US"
     }
   end
@@ -59,7 +59,7 @@ Spec::Runner.configure do |config|
       :recipient_streets => "1500 Marilla Street",
       :recipient_city => "Dallas",
       :recipient_state => "TX",
-      :recipient_zip => "75201",
+      :recipient_postal_code => "75201",
       :recipient_country => "US"
     }
   end

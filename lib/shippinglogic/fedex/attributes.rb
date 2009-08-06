@@ -1,5 +1,6 @@
 module Shippinglogic
   class FedEx
+    # Adds in all of the reading / writing for the various serivce options.
     module Attributes
       def self.included(klass)
         klass.class_eval do
@@ -9,6 +10,8 @@ module Shippinglogic
       end
       
       module ClassMethods
+        # Define an attribute for a class, makes adding options / attributes to the class
+        # much cleaner. See the Rates class for an example.
         def attribute(name, type, options = {})
           name = name.to_sym
           options[:type] = type.to_sym
@@ -18,25 +21,30 @@ module Shippinglogic
           define_method("#{name}=") { |value| write_attribute(name, value) }
         end
         
+        # A hash of all the attributes and their options
         def attributes
           @attributes ||= {}
         end
         
+        # An array of the attribute names
         def attribute_names
           attributes.keys
         end
         
+        # Returns the options specified when defining a specific attribute
         def attribute_options(name)
           attributes[name.to_sym]
         end
       end
       
       module InstanceMethods
+        # A convenience so that you can set attributes while initializing an object
         def initialize(base, attributes = {})
           @attributes = {}
           self.attributes = attributes
         end
         
+        # Returns a hash of the various attribute values
         def attributes
           attributes = {}
           attribute_names.each do |name|
@@ -45,6 +53,7 @@ module Shippinglogic
           attributes
         end
         
+        # Accepts a hash of attribute values and sets each attribute to those values
         def attributes=(value)
           return if value.blank?
           value.each do |key, value|
