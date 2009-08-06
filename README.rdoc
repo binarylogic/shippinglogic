@@ -31,25 +31,28 @@ You can also install this as a plugin:
 
 See below for usage examples.
 
-== Usage
+== Simple tracking example
 
-What's unique about this library is it's usage / syntax. Let me show you...
-
-=== Calls to the web services are lazy
-
-A simple example where we want to track a FedEx package:
+What I think is unique about this library is it's usage / syntax:
 
   fedex = Shippinglogic::FedEx.new(key, password, account, meter) # all credentials FedEx requires
   tracking = fedex.track(:tracking_number => "077973360403984")
+  # => Array of Shippinglogic::FedEx::Track::Event objects
+  
+  tracking.first
+  # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
+  #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
+  
+  tracking.first.name
+  # => "Delivered"
 
-Now here is why this is cool. Nothing has happened yet. No call has been made to the FedEx servers, etc. We do this because we don't need it yet. You don't need it until you start using the object. Lets continue with our example:
+== Calls to the web services are lazy
 
-  tracking.first  # call is made to FedEx and returns the first tracking result in the array
-  tracking.size   # cache is used to determine the size of the array
+In our above example, the call to FedEx was made when we called "tracking.first". That's because it's lazy. It will not make a request to FedEx until absolutely necessary. Once you actually use the object, thats when we call fedex.
 
-This is similar to how ActiveRecord's association proxies work. When you call user.orders no database activity occurs until you actually use the object.
+This is similar to how ActiveRecord's association proxies work. When you call "user.orders" no database activity occurs until you actually use the object (Ex: user.orders.each).
 
-=== Flexibility
+== Flexibility
 
 You will notice above we assign the result of the 'track' method to a variable called 'tracking'. That object has more to it:
 
@@ -68,7 +71,6 @@ You will notice above we assign the result of the 'track' method to a variable c
   tracking.tracking_number
   # => "ZZZZZZZZZZZZZZZZ"
   
-  # Mass attribute reading
   tracking.attributes
   # => {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
 
@@ -76,10 +78,12 @@ You will notice above we assign the result of the 'track' method to a variable c
 
 This library is still very new, as a result only FedEx is support at this time. More will come.
 
+For example of how to use the following service please see the docs for their respective classes.
+
 === FedEx
 
 1. <b>Tracking</b> - See Shippinglogic::Fedex::Track
-1. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rates
+2. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rates
 
 === Add your own services
 

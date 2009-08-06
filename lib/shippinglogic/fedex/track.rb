@@ -12,9 +12,16 @@ module Shippinglogic
     # Here is a very simple example:
     #
     #   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
-    #   fedex.track(:tracking_number => "my number")
+    #   tracking = fedex.track(:tracking_number => "my number")
+    #   tracking.first
+    #   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
+    #   #     @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
+    #   
+    #   tracking.first.name
+    #   # => "Delivered"
     #
     # === Note
+    #
     # FedEx does support locating packages through means other than a tracking number.
     # These are not supported and probably won't be until someone needs them. It should
     # be fairly simple to add, but I could not think of a reason why anyone would want to track

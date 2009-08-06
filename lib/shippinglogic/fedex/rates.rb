@@ -46,13 +46,19 @@ module Shippinglogic
     # Here is a very simple example. Mix and match the options above to get more accurate rates:
     #
     #   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
-    #   fedex.rates(
+    #   rates = fedex.rates(
     #     :shipper_postal_code => "10007",
     #     :shipper_country => "US",
     #     :recipient_postal_code => "75201",
     #     :recipient_country_code => "US"
     #     :packages => [{:weight => 24, :length => 12, :width => 12, :height => 12}]
     #   )
+    #   rates.first
+    #   #<Shippinglogic::FedEx::Rates::Rate @currency="USD", @name="First Overnight", @cost=#<BigDecimal:19ea290,'0.7001E2',8(8)>,
+    #     @deadline=Fri Aug 07 08:00:00 -0400 2009, @type="FIRST_OVERNIGHT", @saturday=false>
+    #   
+    #   rates.first.name
+    #   # => "First Overnight"
     class Rates < Service
       # Each rate result is an object of this class
       class Rate; attr_accessor :name, :type, :saturday, :deadline, :cost, :currency; end
