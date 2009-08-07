@@ -84,13 +84,14 @@ You will notice above we assign the result of the 'track' method to a variable c
 
 This library is still very new, as a result only FedEx is support at this time. More will come.
 
-For example of how to use the following service please see the docs for their respective classes.
+I spent a lot of time on the documentation, for examples of how to use each service please see the docs for their respective classes.
 
 === FedEx
 
 1. <b>Tracking</b> - See Shippinglogic::Fedex::Track
 2. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rate
 3. <b>Creating shipments w/ labels</b> - See Shippinglogic::Fedex::Ship
+4. <b>Canceling shipments</b> - See Shippinglogic::Fedex::Cancel
 
 === Add your own services
 

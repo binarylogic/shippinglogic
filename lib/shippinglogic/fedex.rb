@@ -1,5 +1,6 @@
 require "shippinglogic/fedex/error"
 require "shippinglogic/fedex/service"
+require "shippinglogic/fedex/cancel"
 require "shippinglogic/fedex/rate"
 require "shippinglogic/fedex/ship"
 require "shippinglogic/fedex/track"
@@ -52,6 +53,10 @@ module Shippinglogic
       self.account = account
       self.meter = meter
       self.options = self.class.options.merge(options)
+    end
+    
+    def cancel(attributes = {})
+      @cancel ||= Cancel.new(self, attributes)
     end
     
     def rate(attributes = {})

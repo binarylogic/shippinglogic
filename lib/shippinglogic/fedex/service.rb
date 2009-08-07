@@ -62,6 +62,7 @@ module Shippinglogic
       ]
       
       # misc options
+      DELETION_CONTROL = ["DELETE_ALL_PACKAGES", "DELETE_ONE_PACKAGE", "LEGACY"]
       EMAIL_TYPES = ["HTML", "TEXT", "WIRELESS"]
       PAYMENT_TYPES = ["SENDER", "CASH", "CREDIT_CARD"]
       REFERENCE_TYPES = [
