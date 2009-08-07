@@ -16,7 +16,7 @@ module Shippinglogic
         
         # Was the response a success?
         def success?(response)
-          response.is_a?(Hash) && ["SUCCESS", "NOTE"].include?(response[:highest_severity])
+          response.is_a?(Hash) && ["SUCCESS", "NOTE", "WARNING"].include?(response[:highest_severity])
         end
         
         # Cleans the response and returns it in a more 'user friendly' format that is easier

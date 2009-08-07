@@ -89,9 +89,10 @@ I spent a lot of time on the documentation, for examples of how to use each serv
 === FedEx
 
 1. <b>Tracking</b> - See Shippinglogic::Fedex::Track
-2. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rate
-3. <b>Creating shipments w/ labels</b> - See Shippinglogic::Fedex::Ship
-4. <b>Canceling shipments</b> - See Shippinglogic::Fedex::Cancel
+2. <b>Signature proof of delivery</b> - See Shippinglogic::Fedex::Signature
+3. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rate
+4. <b>Creating shipments w/ labels</b> - See Shippinglogic::Fedex::Ship
+5. <b>Canceling shipments</b> - See Shippinglogic::Fedex::Cancel
 
 === Add your own services
 

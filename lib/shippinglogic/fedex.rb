@@ -3,6 +3,7 @@ require "shippinglogic/fedex/service"
 require "shippinglogic/fedex/cancel"
 require "shippinglogic/fedex/rate"
 require "shippinglogic/fedex/ship"
+require "shippinglogic/fedex/signature"
 require "shippinglogic/fedex/track"
 
 module Shippinglogic
@@ -65,6 +66,10 @@ module Shippinglogic
     
     def ship(attributes = {})
       @ship ||= Ship.new(self, attributes)
+    end
+    
+    def signature(attributes = {})
+      @signature ||= Signature.new(self, attributes)
     end
     
     def track(attributes = {})
