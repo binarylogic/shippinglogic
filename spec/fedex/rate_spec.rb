@@ -9,7 +9,7 @@ describe "FedEx Rate" do
     
     rates.attributes = fedex_shipper
     rates.attributes = fedex_recipient
-    rates.packages = [fedex_package]
+    rates.attributes = fedex_package
     rates.size.should == 6
     
     rate = rates.first

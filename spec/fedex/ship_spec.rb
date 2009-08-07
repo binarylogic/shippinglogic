@@ -10,7 +10,7 @@ describe "FedEx Ship" do
     shipment.service_type = "FEDEX_2_DAY"
     shipment.attributes = fedex_shipper
     shipment.attributes = fedex_recipient
-    shipment.packages = [fedex_package]
+    shipment.attributes = fedex_package
     
     shipment.rate.should == 17.02
     shipment.currency.should == "USD"

@@ -43,6 +43,7 @@ module Shippinglogic
           end
         end
         
+        # A convenience method for building the contact block in your XML request
         def build_contact(b, type)
           b.Contact do
             b.Contact send("#{type}_name") if send("#{type}_name")
@@ -51,6 +52,7 @@ module Shippinglogic
           end
         end
         
+        # A convenience method for building the address block in your XML request
         def build_address(b, type)
           b.Address do
             b.StreetLines send("#{type}_streets") if send("#{type}_streets")
@@ -62,28 +64,23 @@ module Shippinglogic
           end
         end
         
-        def validate_package(package)
-          raise ArgumentError.new("Each package much be in a Hash format") if !package.is_a?(Hash)
-          package.assert_valid_keys(:weight, :weight_units, :length, :height, :width, :dimension_units)
-        end
-        
-        def build_package(b, package, count)
-          package.symbolize_keys! if package.respond_to?(:symbolize_keys!)
-          validate_package(package)
+        # A convenience method for building the package block in your XML request
+        def build_package(b)
+          b.PackageCount package_count
           
           b.RequestedPackages do
-            b.SequenceNumber count
+            b.SequenceNumber 1
             
             b.Weight do
-              b.Units package[:weight_units] || "LB"
-              b.Value package[:weight]
+              b.Units package_weight_units
+              b.Value package_weight
             end
             
             b.Dimensions do
-              b.Length package[:length]
-              b.Width package[:width]
-              b.Height package[:height]
-              b.Units package[:dimension_units] || "IN"
+              b.Length package_length
+              b.Width package_width
+              b.Height package_height
+              b.Units package_dimension_units
             end
           end
         end

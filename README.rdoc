@@ -34,15 +34,16 @@ See below for usage examples.
 == Simple tracking example
 
 What I think is unique about this library is it's usage / syntax:
-
-  fedex = Shippinglogic::FedEx.new(key, password, account, meter) # all credentials FedEx requires
+  
+  fedex = Shippinglogic::FedEx.new(key, password, account, meter)
   tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
   # => A proxy object that delegates calls to an array of Shippinglogic::FedEx::Track::Event objects
   
-  tracking.tracking_number # to show this isn't just an Array object
+  # this shows that the tracking object is a proxy for the underlying array
+  tracking.tracking_number
   # => "XXXXXXXXXXXXXXXXX"
   
-  tracking.first # delegates undefined methods to the underlying array
+  tracking.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
   #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
   
@@ -93,7 +94,7 @@ For example of how to use the following service please see the docs for their re
 
 === Add your own services
 
-Simply fork the project and make your changes. If you want to add support for a new service it should be fairly straight forward. Checkout the code in Shippinglogic::Fedex::Track, it very simple and easy to follow. It's a great place to start because its the simplest of services.
+Simply fork the project and make your changes. If you want to add support for a new service it is very straight forward. Checkout the code in Shippinglogic::Fedex::Track, it very simple and easy to follow. It's a great place to start because its the simplest of services.
 
 == Interface integration
 

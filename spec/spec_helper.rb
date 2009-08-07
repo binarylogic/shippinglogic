@@ -70,10 +70,10 @@ Spec::Runner.configure do |config|
   
   def fedex_package
     {
-      :weight => 2,
-      :length => 2,
-      :width => 2,
-      :height => 2
+      :package_weight => 2,
+      :package_length => 2,
+      :package_width => 2,
+      :package_height => 2
     }
   end
   

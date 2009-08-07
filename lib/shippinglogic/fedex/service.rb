@@ -52,6 +52,15 @@ module Shippinglogic
       SERVICE_TYPES = REGULAR_SERVICE_TYPES + REGULAR_SATURDAY_SERVICE_TYPES + FREIGHT_SERVICE_TYPES + FREIGHT_SATURDAY_SERVICE_TYPES +
         INTERNATIONAL_SERVICE_TYPES + INTERNATIONAL_SATURDAY_TYPES + INTERNATIONA_FREIGHT_SERVICE_TYPES
       
+      # delivery options
+      SIGNATURE_OPTION_TYPES = ["ADULT", "DIRECT", "INDIRECT", "NO_SIGNATURE_REQUIRED", "SERVICE_DEFAULT"]
+      SPECIAL_SERVICES = [
+        "APPOINTMENT_DELIVERY", "DANGEROUS_GOODS", "DRY_ICE", "NON_STANDARD_CONTAINER", "PRIORITY_ALERT", "SIGNATURE_OPTION",
+        "FEDEX_FREIGHT", "FEDEX_NATIONAL_FREIGHT", "INSIDE_PICKUP", "INSIDE_DELIVERY", "EXHIBITION", "EXTREME_LENGTH", "FLATBED_TRAILER",
+        "FREIGHT_GUARANTEE", "LIFTGATE_DELIVERY", "LIFTGATE_PICKUP", "LIMITED_ACCESS_DELIVERY", "LIMITED_ACCESS_PICKUP", "PRE_DELIVERY_NOTIFICATION",
+        "PROTECTION_FROM_FREEZING", "REGIONAL_MALL_DELIVERY", "REGIONAL_MALL_PICKUP"
+      ]
+      
       # misc options
       EMAIL_TYPES = ["HTML", "TEXT", "WIRELESS"]
       PAYMENT_TYPES = ["SENDER", "CASH", "CREDIT_CARD"]
@@ -62,13 +71,6 @@ module Shippinglogic
       PACKAGE_TYPES = ["FEDEX_ENVELOPE", "FEDEX_PAK", "FEDEX_BOX", "FEDEX_TUBE", "FEDEX_10KG_BOX", "FEDEX_25KG_BOX", "YOUR_PACKAGING"]
       DROP_OFF_TYPES = ["REGULAR_PICKUP", "REQUEST_COURIER", "DROP_BOX", "BUSINESS_SERVICE_CENTER", "STATION"]
       RATE_REQUEST_TYPES = ["ACCOUNT", "LIST", "MULTIWEIGHT"]
-      SIGNATURE_OPTION_TYPES = ["ADULT", "DIRECT", "INDIRECT", "NO_SIGNATURE_REQUIRED", "SERVICE_DEFAULT"]
-      SPECIAL_SERVICES = [
-        "APPOINTMENT_DELIVERY", "DANGEROUS_GOODS", "DRY_ICE", "NON_STANDARD_CONTAINER", "PRIORITY_ALERT", "SIGNATURE_OPTION",
-        "FEDEX_FREIGHT", "FEDEX_NATIONAL_FREIGHT", "INSIDE_PICKUP", "INSIDE_DELIVERY", "EXHIBITION", "EXTREME_LENGTH", "FLATBED_TRAILER",
-        "FREIGHT_GUARANTEE", "LIFTGATE_DELIVERY", "LIFTGATE_PICKUP", "LIMITED_ACCESS_DELIVERY", "LIMITED_ACCESS_PICKUP", "PRE_DELIVERY_NOTIFICATION",
-        "PROTECTION_FROM_FREEZING", "REGIONAL_MALL_DELIVERY", "REGIONAL_MALL_PICKUP"
-      ]
       
       attr_accessor :base
       
@@ -87,7 +89,8 @@ module Shippinglogic
         end
         
         # For each service you need to overwrite this method. This is where you make the call to fedex
-        # and do your magic.
+        # and do your magic. See the child classes for examples on how to define this method. It is very
+        # important that you cache the result into a variable to avoid uneccessary requests.
         def target
           raise ImplementationError.new("You need to implement a target method that the proxy class can delegate method calls to")
         end

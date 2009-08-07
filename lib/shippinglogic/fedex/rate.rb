@@ -24,20 +24,19 @@ module Shippinglogic
     #
     # === Packaging options
     #
+    # One thing to note is that FedEx does support multiple package shipments. The problem is that all of the packages must be identical.
+    # FedEx specifically notes in their documentation that mutiple package specifications are not allowed. So your only option for a
+    # multi package shipment is to increase the package_count option and keep the dimensions and weight the same for all packages. Then again,
+    # the documentation for the FedEx web services is terrible, so I could be wrong. Any tests I tried resulted in an error though.
+    #
     # * <tt>packaging_type</tt> - one of PACKAGE_TYPES. (default: YOUR_PACKAGING)
-    # * <tt>packages</tt> - an array of packages included in the shipment. This should be an array of hashes with the following keys:
-    #   * <tt>:weight</tt> - the weight
-    #   * <tt>:weight_units</tt> - either LB or KG. (default: LB)
-    #   * <tt>:length</tt> - the length.
-    #   * <tt>:width</tt> - the width.
-    #   * <tt>:height</tt> - the height.
-    #   * <tt>:dimension_units</tt> - either IN or CM. (default: IN)
-    #
-    # === Date options
-    #
-    # * <tt>ship_time</tt> - a Time object representing when you want to ship the package. (default: Time.now)
-    # * <tt>include_transit_times</tt> - whether or not to include estimated transit times. (default: true)
-    # * <tt>delivery_deadline</tt> - whether or not to include estimated transit times. (default: true)
+    # * <tt>package_count</tt> - the number of packages in your shipment. (default: 1)
+    # * <tt>package_weight</tt> - a single packages weight.
+    # * <tt>package_weight_units</tt> - either LB or KG. (default: LB)
+    # * <tt>package_length</tt> - a single packages length.
+    # * <tt>package_width</tt> - a single packages width.
+    # * <tt>package_height</tt> - a single packages height.
+    # * <tt>package_dimension_units</tt> - either IN or CM. (default: IN)
     #
     # === Monetary options
     #
@@ -48,14 +47,20 @@ module Shippinglogic
     #   you can specify that here. (default: your account number)
     # * <tt>payor_country</tt> - the country code for the account number. (default: US)
     #
-    # === Misc options
+    # === Delivery options
     #
+    # * <tt>ship_time</tt> - a Time object representing when you want to ship the package. (default: Time.now)
     # * <tt>service_type</tt> - one of SERVICE_TYPES, this is optional, leave this blank if you want a list of all
     #   available services. (default: nil)
+    # * <tt>delivery_deadline</tt> - whether or not to include estimated transit times. (default: true)
     # * <tt>dropoff_type</tt> - one of DROP_OFF_TYPES. (default: REGULAR_PICKUP)
     # * <tt>special_services_requested</tt> - any exceptions or special services FedEx needs to be aware of, this should be
     #   one or more of SPECIAL_SERVICES. (default: nil)
+    #
+    # === Misc options
+    #
     # * <tt>rate_request_types</tt> - one or more of RATE_REQUEST_TYPES. (default: ACCOUNT)
+    # * <tt>include_transit_times</tt> - whether or not to include estimated transit times. (default: true)
     #
     # == Simple Example
     #
@@ -66,13 +71,18 @@ module Shippinglogic
     #     :shipper_postal_code => "10007",
     #     :shipper_country => "US",
     #     :recipient_postal_code => "75201",
-    #     :recipient_country_code => "US"
-    #     :packages => [{:weight => 24, :length => 12, :width => 12, :height => 12}]
+    #     :recipient_country_code => "US",
+    #     :package_weight => 24,
+    #     :package_length => 12,
+    #     :package_width => 12,
+    #     :package_height => 12
     #   )
+    #
     #   rates.first
     #   #<Shippinglogic::FedEx::Rates::Rate @currency="USD", @name="First Overnight", @cost=#<BigDecimal:19ea290,'0.7001E2',8(8)>,
     #     @deadline=Fri Aug 07 08:00:00 -0400 2009, @type="FIRST_OVERNIGHT", @saturday=false>
     #   
+    #   # to show accessor methods
     #   rates.first.name
     #   # => "First Overnight"
     class Rate < Service
@@ -99,12 +109,13 @@ module Shippinglogic
       
       # packaging options
       attribute :packaging_type,              :string,      :default => "YOUR_PACKAGING"
-      attribute :packages,                    :array
-      
-      # date options
-      attribute :ship_time,                   :datetime,    :default => lambda { |rate| Time.now }
-      attribute :include_transit_times,       :boolean,     :default => true
-      attribute :delivery_deadline,           :datetime
+      attribute :package_count,               :integer,     :default => 1
+      attribute :package_weight,              :integer
+      attribute :package_weight_units,        :string,      :default => "LB"
+      attribute :package_length,              :integer
+      attribute :package_width,               :integer
+      attribute :package_height,              :integer
+      attribute :package_dimension_units,     :string,      :default => "IN"
       
       # monetary options
       attribute :currency_type,               :string
@@ -113,11 +124,16 @@ module Shippinglogic
       attribute :payor_account_number,        :string,      :default => lambda { |shipment| shipment.base.account }
       attribute :payor_country,               :string
       
-      # misc options
+      # delivery options
+      attribute :ship_time,                   :datetime,    :default => lambda { |rate| Time.now }
       attribute :service_type,                :string
+      attribute :delivery_deadline,           :datetime
       attribute :dropoff_type,                :string,      :default => "REGULAR_PICKUP"
       attribute :special_services_requested,  :array
+      
+      # misc options
       attribute :rate_request_types,          :array,       :default => ["ACCOUNT"]
+      attribute :include_transit_times,       :boolean,     :default => true
       
       private
         def target
@@ -148,10 +164,7 @@ module Shippinglogic
                 end
               end
               b.RateRequestTypes rate_request_types.join(",") if rate_request_types
-              b.PackageCount packages.size
-              b.PackageDetail "INDIVIDUAL_PACKAGES"
-              
-              packages.each_with_index { |package, index| build_package(b, package, index + 1) }
+              build_package(b)
             end
           end
         end

@@ -35,10 +35,13 @@ module Shippinglogic
       attribute :tracking_number, :string
       
       private
+        # The parent class Service requires that we define this method. This is our kicker. This method is only
+        # called when we need to deal with information from FedEx. Notice the caching into the @target variable.
         def target
           @target ||= parse_response(request(build_request))
         end
         
+        # Just building some XML to send off to FedEx. FedEx require this particualr format.
         def build_request
           b = builder
           xml = b.TrackRequest(:xmlns => "http://fedex.com/ws/track/v#{VERSION[:major]}") do
@@ -54,6 +57,8 @@ module Shippinglogic
           end
         end
         
+        # Grabbing the response from FedEx and making sense of it. There is a lot of unneeded information
+        # in the response.
         def parse_response(response)
           response[:track_details][:events].collect do |details|
             event = Event.new
