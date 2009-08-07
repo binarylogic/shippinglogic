@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shippinglogic}
-  s.version = "0.9.0"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben Johnson of Binary Logic"]
-  s.date = %q{2009-08-06}
+  s.date = %q{2009-08-07}
   s.description = %q{A simple and clean library to interface with shipping carriers}
   s.email = %q{bjohnson@binarylogic.com}
   s.extra_rdoc_files = [
@@ -23,25 +23,35 @@ Gem::Specification.new do |s|
      "lib/shippinglogic.rb",
      "lib/shippinglogic/fedex.rb",
      "lib/shippinglogic/fedex/attributes.rb",
+     "lib/shippinglogic/fedex/cancel.rb",
      "lib/shippinglogic/fedex/error.rb",
-     "lib/shippinglogic/fedex/rates.rb",
+     "lib/shippinglogic/fedex/rate.rb",
      "lib/shippinglogic/fedex/request.rb",
      "lib/shippinglogic/fedex/response.rb",
      "lib/shippinglogic/fedex/service.rb",
+     "lib/shippinglogic/fedex/ship.rb",
+     "lib/shippinglogic/fedex/signature.rb",
      "lib/shippinglogic/fedex/track.rb",
      "lib/shippinglogic/fedex/validation.rb",
+     "shippinglogic.gemspec",
      "spec/fedex/attributes_spec.rb",
+     "spec/fedex/cancel_spec.rb",
      "spec/fedex/error_spec.rb",
-     "spec/fedex/rates_spec.rb",
+     "spec/fedex/rate_spec.rb",
      "spec/fedex/service_spec.rb",
+     "spec/fedex/ship_spec.rb",
+     "spec/fedex/signature_spec.rb",
      "spec/fedex/track_spec.rb",
      "spec/fedex/validation_spec.rb",
      "spec/fedex_credentials.example.yaml",
-     "spec/fedex_spec_no.rb",
+     "spec/fedex_spec.rb",
      "spec/lib/interceptor.rb",
      "spec/responses/basic_rate.xml",
+     "spec/responses/basic_ship.xml",
+     "spec/responses/basic_signature.xml",
      "spec/responses/basic_track.xml",
      "spec/responses/blank.xml",
+     "spec/responses/cancel_not_found.xml",
      "spec/responses/failed_authentication.xml",
      "spec/responses/malformed.xml",
      "spec/responses/unexpected.xml",
@@ -55,12 +65,15 @@ Gem::Specification.new do |s|
   s.summary = %q{A simple and clean library to interface with shipping carriers}
   s.test_files = [
     "spec/fedex/attributes_spec.rb",
+     "spec/fedex/cancel_spec.rb",
      "spec/fedex/error_spec.rb",
-     "spec/fedex/rates_spec.rb",
+     "spec/fedex/rate_spec.rb",
      "spec/fedex/service_spec.rb",
+     "spec/fedex/ship_spec.rb",
+     "spec/fedex/signature_spec.rb",
      "spec/fedex/track_spec.rb",
      "spec/fedex/validation_spec.rb",
-     "spec/fedex_spec_no.rb",
+     "spec/fedex_spec.rb",
      "spec/lib/interceptor.rb",
      "spec/spec_helper.rb"
   ]
