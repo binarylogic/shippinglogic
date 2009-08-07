@@ -36,10 +36,10 @@ module Shippinglogic
       
       private
         def target
-          @target ||= parse_track_response(request(build_track_request))
+          @target ||= parse_response(request(build_request))
         end
         
-        def build_track_request
+        def build_request
           b = builder
           xml = b.TrackRequest(:xmlns => "http://fedex.com/ws/track/v#{VERSION[:major]}") do
             build_authentication(b)
@@ -54,7 +54,7 @@ module Shippinglogic
           end
         end
         
-        def parse_track_response(response)
+        def parse_response(response)
           response[:track_details][:events].collect do |details|
             event = Event.new
             event.name = details[:event_description]

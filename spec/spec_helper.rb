@@ -46,6 +46,8 @@ Spec::Runner.configure do |config|
   
   def fedex_shipper
     {
+      :shipper_company_name => "Company",
+      :shipper_phone_number => "2222222222",
       :shipper_streets => "260 Broadway",
       :shipper_city => "New York",
       :shipper_state => "NY",
@@ -56,6 +58,8 @@ Spec::Runner.configure do |config|
   
   def fedex_recipient
     {
+      :recipient_company_name => "Dallas City Hall",
+      :recipient_phone_number => "2222222222",
       :recipient_streets => "1500 Marilla Street",
       :recipient_city => "Dallas",
       :recipient_state => "TX",

@@ -42,6 +42,51 @@ module Shippinglogic
             b.Minor minor
           end
         end
+        
+        def build_contact(b, type)
+          b.Contact do
+            b.Contact send("#{type}_name") if send("#{type}_name")
+            b.CompanyName send("#{type}_company_name") if send("#{type}_company_name")
+            b.PhoneNumber send("#{type}_phone_number") if send("#{type}_phone_number")
+          end
+        end
+        
+        def build_address(b, type)
+          b.Address do
+            b.StreetLines send("#{type}_streets") if send("#{type}_streets")
+            b.City send("#{type}_city") if send("#{type}_city")
+            b.StateOrProvinceCode send("#{type}_state") if send("#{type}_state")
+            b.PostalCode send("#{type}_postal_code") if send("#{type}_postal_code")
+            b.CountryCode send("#{type}_country") if send("#{type}_country")
+            b.Residential send("#{type}_residential")
+          end
+        end
+        
+        def validate_package(package)
+          raise ArgumentError.new("Each package much be in a Hash format") if !package.is_a?(Hash)
+          package.assert_valid_keys(:weight, :weight_units, :length, :height, :width, :dimension_units)
+        end
+        
+        def build_package(b, package, count)
+          package.symbolize_keys! if package.respond_to?(:symbolize_keys!)
+          validate_package(package)
+          
+          b.RequestedPackages do
+            b.SequenceNumber count
+            
+            b.Weight do
+              b.Units package[:weight_units] || "LB"
+              b.Value package[:weight]
+            end
+            
+            b.Dimensions do
+              b.Length package[:length]
+              b.Width package[:width]
+              b.Height package[:height]
+              b.Units package[:dimension_units] || "IN"
+            end
+          end
+        end
     end
   end
 end

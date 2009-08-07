@@ -1,6 +1,7 @@
 require "shippinglogic/fedex/error"
 require "shippinglogic/fedex/service"
-require "shippinglogic/fedex/rates"
+require "shippinglogic/fedex/rate"
+require "shippinglogic/fedex/ship"
 require "shippinglogic/fedex/track"
 
 module Shippinglogic
@@ -53,8 +54,12 @@ module Shippinglogic
       self.options = self.class.options.merge(options)
     end
     
-    def rates(attributes = {})
-      @rates ||= Rates.new(self, attributes)
+    def rate(attributes = {})
+      @rate ||= Rate.new(self, attributes)
+    end
+    
+    def ship(attributes = {})
+      @ship ||= Ship.new(self, attributes)
     end
     
     def track(attributes = {})

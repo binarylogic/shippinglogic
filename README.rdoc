@@ -39,10 +39,10 @@ What I think is unique about this library is it's usage / syntax:
   tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
   # => A proxy object that delegates calls to an array of Shippinglogic::FedEx::Track::Event objects
   
-  tracking.tracking_number
+  tracking.tracking_number # to show this isn't just an Array object
   # => "XXXXXXXXXXXXXXXXX"
   
-  tracking.first
+  tracking.first # delegates undefined methods to the underlying array
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
   #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
   
@@ -51,7 +51,7 @@ What I think is unique about this library is it's usage / syntax:
 
 == Calls to the web services are lazy
 
-In our above example, you will notice we are able to access attributes, while at the same time able to treat the object as an Array. That's because the object is a Proxy object that is delegating method calls to the underlying array. So it's basically an Array with extra methods.
+In our above example, you will notice we are able to access attributes, while at the same time able to treat the object as an array. That's because the object is not actually an array, it acts as a proxy for the underlying array.
 
 That being said, a request is not sent to FedEx until we need to deal with the underlying array. Meaning it's lazy, which is more efficient. Most would think the request to FedEx was sent when we initialized the object. This is not the case. The request to FedEx was sent when we executed "tracking.first".
 
@@ -88,7 +88,8 @@ For example of how to use the following service please see the docs for their re
 === FedEx
 
 1. <b>Tracking</b> - See Shippinglogic::Fedex::Track
-2. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rates
+2. <b>Getting service rates</b> - See Shippinglogic::Fedex::Rate
+3. <b>Creating shipments w/ labels</b> - See Shippinglogic::Fedex::Ship
 
 === Add your own services
 

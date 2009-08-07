@@ -79,7 +79,7 @@ module Shippinglogic
             default = attribute_options(name)[:default]
             case default
             when Proc
-              default.call
+              default.call(self)
             else
               default
             end

@@ -25,17 +25,17 @@ describe "FedEx Attributes" do
   end
   
   it "should implement defaults" do
-    rates = new_fedex.rates
+    rates = new_fedex.rate
     rates.shipper_residential.should == false
   end
   
   it "should use blank array as defaults for arrays" do
-    rates = new_fedex.rates
+    rates = new_fedex.rate
     rates.packages.should == []
   end
   
   it "should call procs during run time if a default is a proc" do
-    rates = new_fedex.rates
+    rates = new_fedex.rate
     rates.ship_time.to_s.should == Time.now.to_s
   end
 end

@@ -5,7 +5,7 @@ describe "FedEx Rate" do
     use_response(:basic_rate)
     
     fedex = new_fedex
-    rates = fedex.rates
+    rates = fedex.rate
     
     rates.attributes = fedex_shipper
     rates.attributes = fedex_recipient
@@ -17,7 +17,7 @@ describe "FedEx Rate" do
     rate.type.should == "FIRST_OVERNIGHT"
     rate.saturday.should == false
     rate.deadline.should == Time.parse("Fri Aug 07 08:00:00 -0400 2009")
-    rate.cost.should == BigDecimal("70.01")
+    rate.rate.should == 70.01
     rate.currency.should == "USD"
   end
 end
