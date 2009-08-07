@@ -6,6 +6,7 @@ describe "FedEx Rate" do
     
     fedex = new_fedex
     rates = fedex.rates
+    
     rates.attributes = fedex_shipper
     rates.attributes = fedex_recipient
     rates.packages = [fedex_package]

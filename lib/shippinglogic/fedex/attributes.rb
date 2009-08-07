@@ -64,11 +64,11 @@ module Shippinglogic
         
         private
           def attribute_names
-            self.class.attribute_names
+            real_class.attribute_names
           end
           
           def attribute_options(name)
-            self.class.attribute_options(name)
+            self.real_class.attribute_options(name)
           end
           
           def attribute_type(name)

@@ -36,8 +36,11 @@ See below for usage examples.
 What I think is unique about this library is it's usage / syntax:
 
   fedex = Shippinglogic::FedEx.new(key, password, account, meter) # all credentials FedEx requires
-  tracking = fedex.track(:tracking_number => "077973360403984")
-  # => Array of Shippinglogic::FedEx::Track::Event objects
+  tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
+  # => A proxy object that delegates calls to an array of Shippinglogic::FedEx::Track::Event objects
+  
+  tracking.tracking_number
+  # => "XXXXXXXXXXXXXXXXX"
   
   tracking.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
@@ -48,7 +51,9 @@ What I think is unique about this library is it's usage / syntax:
 
 == Calls to the web services are lazy
 
-In our above example, the call to FedEx was made when we called "tracking.first". That's because it's lazy. It will not make a request to FedEx until absolutely necessary. Once you actually use the object, thats when we call fedex.
+In our above example, you will notice we are able to access attributes, while at the same time able to treat the object as an Array. That's because the object is a Proxy object that is delegating method calls to the underlying array. So it's basically an Array with extra methods.
+
+That being said, a request is not sent to FedEx until we need to deal with the underlying array. Meaning it's lazy, which is more efficient. Most would think the request to FedEx was sent when we initialized the object. This is not the case. The request to FedEx was sent when we executed "tracking.first".
 
 This is similar to how ActiveRecord's association proxies work. When you call "user.orders" no database activity occurs until you actually use the object (Ex: user.orders.each).
 

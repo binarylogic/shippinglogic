@@ -11,4 +11,9 @@ describe "FedEx Service" do
     use_response(:blank)
     lambda { new_fedex.track(:tracking_number => fedex_tracking_number).size }.should raise_error(Shippinglogic::FedEx::Error)
   end
+  
+  it "should delegate the class method to the target" do
+    use_response(:basic_track)
+    new_fedex.track(:tracking_number => fedex_tracking_number).class.should == Array
+  end
 end

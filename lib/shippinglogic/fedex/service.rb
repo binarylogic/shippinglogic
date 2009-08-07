@@ -6,7 +6,8 @@ require "shippinglogic/fedex/validation"
 module Shippinglogic
   class FedEx
     class Service
-      instance_methods.each { |m| undef_method m unless m =~ /(^__|^nil\?$|^class$|^send$|proxy_|^object_id$)/ }
+      alias_method :real_class, :class
+      instance_methods.each { |m| undef_method m unless m =~ /(^__|^real_class$|^send$|^object_id$)/ }
       
       include Attributes
       include HTTParty
