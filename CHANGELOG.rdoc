@@ -1,3 +1,8 @@
+== 1.0.2
+
+* Remove notifications with a successful severity in the errors message.
+* Added country code mapping so that we can pass full country named and have it convert it to a FedEx friendly code behind the scenes.
+
 == 1.0.1 released 2009-07-08
 
 * Fixed delivery deadline option for rate.

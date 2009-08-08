@@ -27,6 +27,7 @@ module Shippinglogic
           add_error("The response from FedEx was malformed and was not in a valid XML format.")
         elsif notifications = response[:notifications]
           notifications = notifications.is_a?(Array) ? notifications : [notifications]
+          notifications.delete_if { |notification| Response::SUCCESSFUL_SEVERITIES.include?(notification[:severity]) }
           notifications.each { |notification| add_error(notification[:message], notification[:code]) }
         elsif response[:"soapenv:fault"] && detail = response[:"soapenv:fault"][:detail][:"con:fault"]
           add_error(detail[:"con:reason"], detail[:"con:error_code"])

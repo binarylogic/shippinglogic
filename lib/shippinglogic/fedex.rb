@@ -1,3 +1,4 @@
+require "shippinglogic/fedex/enumerations"
 require "shippinglogic/fedex/error"
 require "shippinglogic/fedex/service"
 require "shippinglogic/fedex/cancel"

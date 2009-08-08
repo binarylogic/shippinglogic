@@ -96,7 +96,7 @@ module Shippinglogic
       attribute :shipper_city,                :string
       attribute :shipper_state,               :string
       attribute :shipper_postal_code,         :string
-      attribute :shipper_country,             :string
+      attribute :shipper_country,             :string,      :modifier => :country_code
       attribute :shipper_residential,         :boolean,     :default => false
       
       # recipient options
@@ -104,7 +104,7 @@ module Shippinglogic
       attribute :recipient_city,              :string
       attribute :recipient_state,             :string
       attribute :recipient_postal_code,       :string
-      attribute :recipient_country,           :string
+      attribute :recipient_country,           :string,      :modifier => :country_code
       attribute :recipient_residential,       :boolean,     :default => false
       
       # packaging options

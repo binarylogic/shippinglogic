@@ -59,7 +59,7 @@ module Shippinglogic
             b.City send("#{type}_city") if send("#{type}_city")
             b.StateOrProvinceCode send("#{type}_state") if send("#{type}_state")
             b.PostalCode send("#{type}_postal_code") if send("#{type}_postal_code")
-            b.CountryCode send("#{type}_country") if send("#{type}_country")
+            b.CountryCode country_code(send("#{type}_country")) if send("#{type}_country")
             b.Residential send("#{type}_residential")
           end
         end
@@ -89,6 +89,14 @@ module Shippinglogic
         
         def custom_packaging?
           packaging_type == "YOUR_PACKAGING"
+        end
+        
+        def country_code(value)
+          if Enumerations::COUNTRY_CODES.key?(value.to_s)
+            Enumerations::COUNTRY_CODES[value.to_s]
+          else
+            value.to_s
+          end
         end
     end
   end

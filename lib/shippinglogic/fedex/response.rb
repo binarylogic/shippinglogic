@@ -2,6 +2,8 @@ module Shippinglogic
   class FedEx
     # Methods relating to receiving a response from FedEx and cleaning it up.
     module Response
+      SUCCESSFUL_SEVERITIES = ["SUCCESS", "NOTE", "WARNING"]
+      
       private
         # Overwriting the request method to clean the response and handle errors.
         def request(*args)
@@ -16,7 +18,7 @@ module Shippinglogic
         
         # Was the response a success?
         def success?(response)
-          response.is_a?(Hash) && ["SUCCESS", "NOTE", "WARNING"].include?(response[:highest_severity])
+          response.is_a?(Hash) && SUCCESSFUL_SEVERITIES.include?(response[:highest_severity])
         end
         
         # Cleans the response and returns it in a more 'user friendly' format that is easier
