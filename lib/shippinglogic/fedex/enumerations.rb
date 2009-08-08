@@ -59,7 +59,7 @@ module Shippinglogic
       DROP_OFF_TYPES = ["REGULAR_PICKUP", "REQUEST_COURIER", "DROP_BOX", "BUSINESS_SERVICE_CENTER", "STATION"]
       RATE_REQUEST_TYPES = ["ACCOUNT", "LIST", "MULTIWEIGHT"]
       
-      COUNTRY_CODES = {
+      FEDEX_COUNTRY_CODES = {
         "Albania" => "AL",
         "Algeria" => "DZ",
         "American Samoa" => "AS",
@@ -246,7 +246,6 @@ module Shippinglogic
         "U.A.E." => "AE",
         "U.S. Virgin Islands" => "VI",
         "U.S.A." => "US",
-        "United States of America" => "US",
         "Uganda" => "UG",
         "Ukraine" => "UA",
         "United Kingdom" => "GB",
@@ -260,6 +259,10 @@ module Shippinglogic
         "Yemen" => "YE",
         "Zambia" => "ZM",
         "Zimbabwe" => "ZW"
+      }
+      
+      RAILS_COUNTRY_CODES = {
+        "United States" => "US"
       }
     end
   end

@@ -92,11 +92,7 @@ module Shippinglogic
         end
         
         def country_code(value)
-          if Enumerations::COUNTRY_CODES.key?(value.to_s)
-            Enumerations::COUNTRY_CODES[value.to_s]
-          else
-            value.to_s
-          end
+          Enumerations::FEDEX_COUNTRY_CODES[value.to_s] || Enumerations::RAILS_COUNTRY_CODES[value.to_s] || value.to_s
         end
     end
   end

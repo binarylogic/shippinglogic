@@ -11,10 +11,11 @@ begin
     gem.homepage = "http://github.com/binarylogic/shippinglogic"
     gem.authors = ["Ben Johnson of Binary Logic"]
     gem.rubyforge_project = "shippinglogic"
+    gem.add_development_dependency "rspec"
     gem.add_dependency "activesupport", ">= 2.2.0"
     gem.add_dependency "httparty", ">= 0.4.4"
   end
-
+  Jeweler::RubyforgeTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
@@ -32,14 +33,3 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
 end
 
 task :default => :spec
-
-begin
-  require 'rake/contrib/sshpublisher'
-  namespace :rubyforge do
-    desc "Release gem to RubyForge"
-    task :release => ["rubyforge:release:gem"]
-  end
-rescue LoadError
-  puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
-end
-
