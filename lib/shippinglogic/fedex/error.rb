@@ -6,19 +6,21 @@ module Shippinglogic
     #
     # === Tip
     #
-    # If you want to see the raw respose catch the error object and call the response method. Ex:
+    # If you want to see the raw request / respose catch the error object and call the request / response method. Ex:
     #
     #   begin
     #     # my fedex code
     #   rescue Shippinglogic::FedEx::Error => e
     #     # do whatever you want here, just do:
+    #     # e.request
     #     # e.response
     #     # to get the raw response from fedex
     #   end
     class Error < StandardError
-      attr_accessor :errors, :response
+      attr_accessor :errors, :request, :response
       
-      def initialize(response)
+      def initialize(request, response)
+        self.request = request
         self.response = response
         
         if response.blank?

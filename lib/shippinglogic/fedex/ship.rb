@@ -10,7 +10,7 @@ module Shippinglogic
     # * <tt>shipper_city</tt> - city part of the address.
     # * <tt>shipper_state_</tt> - state part of the address, use state abreviations.
     # * <tt>shipper_postal_code</tt> - postal code part of the address. Ex: zip for the US.
-    # * <tt>shipper_country</tt> - country code part of the address, use abbreviations, ex: 'US'
+    # * <tt>shipper_country</tt> - country code part of the address. FedEx expects abbreviations, but Shippinglogic will convert full names to abbreviations for you.
     # * <tt>shipper_residential</tt> - a boolean value representing if the address is redential or not (default: false)
     #
     # === Recipient options
@@ -19,7 +19,7 @@ module Shippinglogic
     # * <tt>recipient_city</tt> - city part of the address.
     # * <tt>recipient_state</tt> - state part of the address, use state abreviations.
     # * <tt>recipient_postal_code</tt> - postal code part of the address. Ex: zip for the US.
-    # * <tt>recipient_country</tt> - country code part of the address, use abbreviations, ex: 'US'
+    # * <tt>recipient_country</tt> - country code part of the address. FedEx expects abbreviations, but Shippinglogic will convert full names to abbreviations for you.
     # * <tt>recipient_residential</tt> - a boolean value representing if the address is redential or not (default: false)
     #
     # === Label options
@@ -39,9 +39,9 @@ module Shippinglogic
     # * <tt>package_count</tt> - the number of packages in your shipment. (default: 1)
     # * <tt>package_weight</tt> - a single packages weight.
     # * <tt>package_weight_units</tt> - either LB or KG. (default: LB)
-    # * <tt>package_length</tt> - a single packages length.
-    # * <tt>package_width</tt> - a single packages width.
-    # * <tt>package_height</tt> - a single packages height.
+    # * <tt>package_length</tt> - a single packages length, only required if using YOUR_PACKAGING for packaging_type.
+    # * <tt>package_width</tt> - a single packages width, only required if using YOUR_PACKAGING for packaging_type.
+    # * <tt>package_height</tt> - a single packages height, only required if using YOUR_PACKAGING for packaging_type.
     # * <tt>package_dimension_units</tt> - either IN or CM. (default: IN)
     #
     # === Monetary options

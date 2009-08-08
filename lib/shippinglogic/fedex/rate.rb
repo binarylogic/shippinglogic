@@ -10,7 +10,7 @@ module Shippinglogic
     # * <tt>shipper_city</tt> - city part of the address.
     # * <tt>shipper_state_</tt> - state part of the address, use state abreviations.
     # * <tt>shipper_postal_code</tt> - postal code part of the address. Ex: zip for the US.
-    # * <tt>shipper_country</tt> - country code part of the address, use abbreviations, ex: 'US'
+    # * <tt>shipper_country</tt> - country code part of the address. FedEx expects abbreviations, but Shippinglogic will convert full names to abbreviations for you.
     # * <tt>shipper_residential</tt> - a boolean value representing if the address is redential or not (default: false)
     #
     # === Recipient options
@@ -19,7 +19,7 @@ module Shippinglogic
     # * <tt>recipient_city</tt> - city part of the address.
     # * <tt>recipient_state</tt> - state part of the address, use state abreviations.
     # * <tt>recipient_postal_code</tt> - postal code part of the address. Ex: zip for the US.
-    # * <tt>recipient_country</tt> - country code part of the address, use abbreviations, ex: 'US'
+    # * <tt>recipient_country</tt> - country code part of the address. FedEx expects abbreviations, but Shippinglogic will convert full names to abbreviations for you.
     # * <tt>recipient_residential</tt> - a boolean value representing if the address is redential or not (default: false)
     #
     # === Packaging options
@@ -33,9 +33,9 @@ module Shippinglogic
     # * <tt>package_count</tt> - the number of packages in your shipment. (default: 1)
     # * <tt>package_weight</tt> - a single packages weight.
     # * <tt>package_weight_units</tt> - either LB or KG. (default: LB)
-    # * <tt>package_length</tt> - a single packages length.
-    # * <tt>package_width</tt> - a single packages width.
-    # * <tt>package_height</tt> - a single packages height.
+    # * <tt>package_length</tt> - a single packages length, only required if using YOUR_PACKAGING for packaging_type.
+    # * <tt>package_width</tt> - a single packages width, only required if using YOUR_PACKAGING for packaging_type.
+    # * <tt>package_height</tt> - a single packages height, only required if using YOUR_PACKAGING for packaging_type.
     # * <tt>package_dimension_units</tt> - either IN or CM. (default: IN)
     #
     # === Monetary options
@@ -87,7 +87,7 @@ module Shippinglogic
     #   # => "First Overnight"
     class Rate < Service
       # Each rate result is an object of this class
-      class Service; attr_accessor :name, :type, :saturday, :deadline, :rate, :currency; end
+      class Service; attr_accessor :name, :type, :saturday, :delivered_by, :rate, :currency; end
       
       VERSION = {:major => 6, :intermediate => 0, :minor => 0}
       
@@ -175,14 +175,14 @@ module Shippinglogic
           response[:rate_reply_details].collect do |details|
             shipment_detail = details[:rated_shipment_details].is_a?(Array) ? details[:rated_shipment_details].first : details[:rated_shipment_details]
             cost = shipment_detail[:shipment_rate_detail][:total_net_charge]
-            deadline = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
+            delivered_by = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
             
-            if meets_deadline?(deadline)
+            if meets_deadline?(delivered_by)
               service = Service.new
               service.name = details[:service_type].titleize
               service.type = details[:service_type]
               service.saturday = details[:applied_options] == "SATURDAY_DELIVERY"
-              service.deadline = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
+              service.delivered_by = delivered_by
               service.rate = BigDecimal.new(cost[:amount])
               service.currency = cost[:currency]
               service
@@ -190,9 +190,9 @@ module Shippinglogic
           end.compact
         end
         
-        def meets_deadline?(deadline)
+        def meets_deadline?(delivered_by)
           return true if !delivery_deadline
-          deadline && deadline <= delivery_deadline
+          delivered_by && delivered_by <= delivery_deadline
         end
     end
   end

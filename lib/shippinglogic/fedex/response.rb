@@ -6,13 +6,13 @@ module Shippinglogic
       
       private
         # Overwriting the request method to clean the response and handle errors.
-        def request(*args)
+        def request(body)
           response = clean_response(super)
           
           if success?(response)
             response
           else
-            raise Error.new(response)
+            raise Error.new(body, response)
           end
         end
         

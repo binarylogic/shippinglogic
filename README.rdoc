@@ -88,7 +88,7 @@ You will notice above we assign the result of the 'track' method to a variable c
 
 == Available services and their features
 
-This library is still very new, as a result only FedEx is support at this time. More will come.
+This library is still very new, as a result only FedEx is supported at this time. More will come.
 
 I spent a lot of time on the documentation, for examples of how to use each service please see the docs for their respective classes.
 
@@ -141,6 +141,33 @@ Then your results:
       .occured_at= event.occured_at.to_s(:long)
       .location== #{event.city}, #{event.state} #{event.postal_code}, #{event.country}
       .residential= event.residential ? "Yes" : "No"
+
+== Leave abstraction to your application
+
+Here is what I did in an application of mine and it worked out great. I also have complete control of what I'm doing and the library is not limiting me:
+
+  class Shipment < ActiveRecord::Base
+    class Service
+      attr_accessor :carrier, :name, delivered_by, :rate
+    end
+    
+    def services
+      @services ||= fedex_services # + some_other_services
+    end
+    
+    private
+      def fedex_services
+        rate_options = {} # fill me with options accepted by Shippinglogic::FedEx::Rate
+        fedex.rate(rate_options).collect do |rate|
+          service = Service.new
+          service.carrier = :fedex
+          serivce.name = rate.name
+          service.rate = rate.rate
+          service.delivered_by = rate.delivered_by
+          service
+        end
+      end
+  end
 
 == Copyright
 

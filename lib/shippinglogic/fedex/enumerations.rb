@@ -265,7 +265,7 @@ module Shippinglogic
         "United States" => "US"
       }
       
-      STATE_CODES = {
+      US_STATE_CODES = {
         "Alabama" => "AL",
         "Alaska" => "AK",
         "America Samoa" => "AS",
@@ -325,6 +325,24 @@ module Shippinglogic
         "Wisconsin" => "WI",
         "Wyoming" => "WY",
       }
+      
+      CANADA_STATE_CODES = {
+        "Alberta" => "AB",
+        "British Columbia" => "BC",
+        "Manitoba" => "MB",
+        "New Brunswick" => "NB",
+        "Newfoundland and Labrador" => "NL",
+        "Nova Scotia" => "NS",
+        "Northwest Territories" => "NT",
+        "Nunavut" => "NU",
+        "Ontario" => "ON",
+        "Prince Edward Island" => "PE",
+        "Quebec" => "QC",
+        "Saskatchewan" => "SK",
+        "Yukon" => "YT"
+      }
+      
+      STATE_CODES = US_STATE_CODES.merge(CANADA_STATE_CODES)
     end
   end
 end
