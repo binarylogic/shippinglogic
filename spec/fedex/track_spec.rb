@@ -2,7 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "FedEx Track" do
   it "should track the package" do
-    use_response(:basic_track)
+    use_response(:track_defaults)
+    
     fedex = new_fedex
     events = fedex.track(:tracking_number => fedex_tracking_number)
     

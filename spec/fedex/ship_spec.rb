@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "FedEx Ship" do
   it "should create a new shipment" do
-    use_response(:basic_ship)
+    use_response(:ship_defaults)
     
     fedex = new_fedex
     shipment = fedex.ship

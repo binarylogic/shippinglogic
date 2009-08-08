@@ -1,0 +1,8 @@
+== 1.0.1 released 2009-07-08
+
+* Fixed delivery deadline option for rate.
+* Ship package dimensions if we arent using our own packaging.
+
+== 1.0.0 released 2009-07-07
+
+* Initial lease

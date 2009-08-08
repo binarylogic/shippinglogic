@@ -127,7 +127,7 @@ module Shippinglogic
       attribute :packaging_type,              :string,      :default => "YOUR_PACKAGING"
       attribute :packaging_type,              :string,      :default => "YOUR_PACKAGING"
       attribute :package_count,               :integer,     :default => 1
-      attribute :package_weight,              :integer
+      attribute :package_weight,              :float
       attribute :package_weight_units,        :string,      :default => "LB"
       attribute :package_length,              :integer
       attribute :package_width,               :integer

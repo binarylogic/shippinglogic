@@ -76,13 +76,19 @@ module Shippinglogic
               b.Value package_weight
             end
             
-            b.Dimensions do
-              b.Length package_length
-              b.Width package_width
-              b.Height package_height
-              b.Units package_dimension_units
+            if custom_packaging?
+              b.Dimensions do
+                b.Length package_length
+                b.Width package_width
+                b.Height package_height
+                b.Units package_dimension_units
+              end
             end
           end
+        end
+        
+        def custom_packaging?
+          packaging_type == "YOUR_PACKAGING"
         end
     end
   end

@@ -6,12 +6,12 @@ The goal of this library is to provide simple and straight forward interfaces to
 
 * <b>Documentation:</b> http://rdoc.info/projects/binarylogic/shippinglogic
 * <b>Repository:</b> http://github.com/binarylogic/shippinglogic/tree/master
-* <b>Bugs / feature suggestions:</b> http://binarylogic.lighthouseapp.com/projects/16601-searchlogic
+* <b>Issues:</b> http://github.com/binarylogic/shippinglogic/issues
 * <b>Google group:</b> http://groups.google.com/group/shippinglogic
 
 <b>Before contacting me directly, please read:</b>
 
-If you find a bug or a problem please post it on lighthouse. If you need help with something, please use google groups. I check both regularly and get emails when anything happens, so that is the best place to get help. This also benefits other people in the future with the same questions / problems. Thank you.
+If you find a bug or a problem please post it in the issues section. If you need help with something, please use google groups. I check both regularly and get emails when anything happens, so that is the best place to get help. This also benefits other people in the future with the same questions / problems. Thank you.
 
 == Install & use
 
@@ -42,6 +42,12 @@ What I think is unique about this library is it's usage / syntax:
   # this shows that the tracking object is a proxy for the underlying array
   tracking.tracking_number
   # => "XXXXXXXXXXXXXXXXX"
+  
+  tracking.tracking_number = "YYYYYYYYYYYYYYYYYY"
+  # => "YYYYYYYYYYYYYYYYYY"
+  
+  tracking.class
+  # => Array
   
   tracking.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,

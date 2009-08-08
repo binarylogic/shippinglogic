@@ -13,7 +13,7 @@ describe "FedEx Service" do
   end
   
   it "should delegate the class method to the target" do
-    use_response(:basic_track)
+    use_response(:track_defaults)
     new_fedex.track(:tracking_number => fedex_tracking_number).class.should == Array
   end
 end

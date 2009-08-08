@@ -87,7 +87,7 @@ module Shippinglogic
     #   # => "First Overnight"
     class Rate < Service
       # Each rate result is an object of this class
-      class Rate; attr_accessor :name, :type, :saturday, :deadline, :rate, :currency; end
+      class Service; attr_accessor :name, :type, :saturday, :deadline, :rate, :currency; end
       
       VERSION = {:major => 6, :intermediate => 0, :minor => 0}
       
@@ -110,7 +110,7 @@ module Shippinglogic
       # packaging options
       attribute :packaging_type,              :string,      :default => "YOUR_PACKAGING"
       attribute :package_count,               :integer,     :default => 1
-      attribute :package_weight,              :integer
+      attribute :package_weight,              :float
       attribute :package_weight_units,        :string,      :default => "LB"
       attribute :package_length,              :integer
       attribute :package_width,               :integer
@@ -170,26 +170,29 @@ module Shippinglogic
         end
         
         def parse_response(response)
+          return [] if !response[:rate_reply_details]
+          
           response[:rate_reply_details].collect do |details|
             shipment_detail = details[:rated_shipment_details].is_a?(Array) ? details[:rated_shipment_details].first : details[:rated_shipment_details]
             cost = shipment_detail[:shipment_rate_detail][:total_net_charge]
             deadline = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
             
-            next if delivery_deadline && !meets_deadline?(delivery_deadline)
-            
-            rate = Rate.new
-            rate.name = details[:service_type].titleize
-            rate.type = details[:service_type]
-            rate.saturday = details[:applied_options] == "SATURDAY_DELIVERY"
-            rate.deadline = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
-            rate.rate = BigDecimal.new(cost[:amount])
-            rate.currency = cost[:currency]
-            rate
-          end
+            if meets_deadline?(deadline)
+              service = Service.new
+              service.name = details[:service_type].titleize
+              service.type = details[:service_type]
+              service.saturday = details[:applied_options] == "SATURDAY_DELIVERY"
+              service.deadline = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
+              service.rate = BigDecimal.new(cost[:amount])
+              service.currency = cost[:currency]
+              service
+            end
+          end.compact
         end
         
-        def meets_deadline?(delivery_deadline)
-          !deadline || deadline > delivery_deadline
+        def meets_deadline?(deadline)
+          return true if !delivery_deadline
+          deadline && deadline <= delivery_deadline
         end
     end
   end
