@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shippinglogic}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben Johnson of Binary Logic"]
-  s.date = %q{2009-08-07}
+  s.date = %q{2009-08-08}
   s.description = %q{A simple and clean library to interface with shipping carriers}
   s.email = %q{bjohnson@binarylogic.com}
   s.extra_rdoc_files = [
@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
      ".gitignore",
+     "CHANGELOG.rdoc",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
@@ -46,14 +47,16 @@ Gem::Specification.new do |s|
      "spec/fedex_credentials.example.yaml",
      "spec/fedex_spec.rb",
      "spec/lib/interceptor.rb",
-     "spec/responses/basic_rate.xml",
-     "spec/responses/basic_ship.xml",
-     "spec/responses/basic_signature.xml",
-     "spec/responses/basic_track.xml",
      "spec/responses/blank.xml",
      "spec/responses/cancel_not_found.xml",
      "spec/responses/failed_authentication.xml",
      "spec/responses/malformed.xml",
+     "spec/responses/rate_defaults.xml",
+     "spec/responses/rate_no_services.xml",
+     "spec/responses/rate_non_custom_packaging.xml",
+     "spec/responses/ship_defaults.xml",
+     "spec/responses/signature_defaults.xml",
+     "spec/responses/track_defaults.xml",
      "spec/responses/unexpected.xml",
      "spec/spec_helper.rb"
   ]
