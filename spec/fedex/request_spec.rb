@@ -6,4 +6,10 @@ describe "FedEx Attributes" do
     rates = fedex.rate
     rates.send(:country_code, "United States").should == "US"
   end
+  
+  it "should convert full state names to state codes" do
+    fedex = new_fedex
+    rates = fedex.rate
+    rates.send(:state_code, "Texas").should == "TX"
+  end
 end

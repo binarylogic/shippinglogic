@@ -1,3 +1,7 @@
+== 1.0.4 released 2009-07-08
+
+* Added state code mapping so that we can pass full state names and have it convert it to a FedEx friendly code behind the scenes.
+
 == 1.0.3 released 2009-07-08
 
 * Rails uses United States not United State of America

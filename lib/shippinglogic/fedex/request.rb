@@ -57,7 +57,7 @@ module Shippinglogic
           b.Address do
             b.StreetLines send("#{type}_streets") if send("#{type}_streets")
             b.City send("#{type}_city") if send("#{type}_city")
-            b.StateOrProvinceCode send("#{type}_state") if send("#{type}_state")
+            b.StateOrProvinceCode state_code(send("#{type}_state")) if send("#{type}_state")
             b.PostalCode send("#{type}_postal_code") if send("#{type}_postal_code")
             b.CountryCode country_code(send("#{type}_country")) if send("#{type}_country")
             b.Residential send("#{type}_residential")
@@ -93,6 +93,10 @@ module Shippinglogic
         
         def country_code(value)
           Enumerations::FEDEX_COUNTRY_CODES[value.to_s] || Enumerations::RAILS_COUNTRY_CODES[value.to_s] || value.to_s
+        end
+        
+        def state_code(value)
+          Enumerations::STATE_CODES[value.to_s] || value.to_s
         end
     end
   end
