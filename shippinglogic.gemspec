@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shippinglogic}
-  s.version = "1.0.7"
+  s.version = "1.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben Johnson of Binary Logic"]
@@ -57,6 +57,7 @@ Gem::Specification.new do |s|
      "spec/responses/failed_authentication.xml",
      "spec/responses/malformed.xml",
      "spec/responses/rate_defaults.xml",
+     "spec/responses/rate_insurance.xml",
      "spec/responses/rate_no_services.xml",
      "spec/responses/rate_non_custom_packaging.xml",
      "spec/responses/ship_defaults.xml",
