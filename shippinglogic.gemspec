@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shippinglogic}
-  s.version = "1.0.5"
+  s.version = "1.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben Johnson of Binary Logic"]
-  s.date = %q{2009-08-08}
-  s.description = %q{A simple and clean library to interface with shipping carriers}
+  s.date = %q{2009-08-09}
+  s.description = %q{Easily use FedEx, UPS, USPS web services with an elegant and simple syntax.}
   s.email = %q{bjohnson@binarylogic.com}
   s.extra_rdoc_files = [
     "LICENSE",
