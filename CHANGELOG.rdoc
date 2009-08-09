@@ -1,3 +1,7 @@
+== 1.0.7 released 2009-07-09
+
+* Fix decimal conversion bug, cant convert a raw float to a decimal.
+
 == 1.0.6 released 2009-07-09
 
 * Reset the cached response if an attribute changes.

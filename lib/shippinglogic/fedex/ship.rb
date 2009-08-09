@@ -84,7 +84,7 @@ module Shippinglogic
     #   )
     #
     #   shipment.inspect
-    #   #<Shippinglogic::FedEx::Ship::Shipment rate:big_decimal, currency:string, delivery_date:date, tracking_number:string,
+    #   #<Shippinglogic::FedEx::Ship::Shipment rate:decimal, currency:string, delivery_date:date, tracking_number:string,
     #     label:string(base64 decoded), barcode:string(base64 decoded) >
     #   
     #   # to show accessor methods
@@ -136,7 +136,7 @@ module Shippinglogic
       
       # monetary options
       attribute :currency_type,               :string
-      attribute :insured_value,               :big_decimal
+      attribute :insured_value,               :decimal
       attribute :payment_type,                :string,      :default => "SENDER"
       attribute :payor_account_number,        :string,      :default => lambda { |shipment| shipment.base.account }
       attribute :payor_country,               :string

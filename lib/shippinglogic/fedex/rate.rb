@@ -119,7 +119,7 @@ module Shippinglogic
       
       # monetary options
       attribute :currency_type,               :string
-      attribute :insured_value,               :big_decimal
+      attribute :insured_value,               :decimal
       attribute :payment_type,                :string,      :default => "SENDER"
       attribute :payor_account_number,        :string,      :default => lambda { |shipment| shipment.base.account }
       attribute :payor_country,               :string

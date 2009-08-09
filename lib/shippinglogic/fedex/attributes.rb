@@ -103,8 +103,8 @@ module Shippinglogic
               value.to_i
             when :float
               value.to_f
-            when :big_decimal
-              BigDecimal.new(value)
+            when :decimal
+              BigDecimal.new(value.to_s)
             when :boolean
               ["true", "1"].include?(value.to_s)
             when :string, :text
