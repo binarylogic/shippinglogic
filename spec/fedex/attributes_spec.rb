@@ -38,4 +38,21 @@ describe "FedEx Attributes" do
     rates = new_fedex.rate
     rates.ship_time.to_s.should == Time.now.to_s
   end
+  
+  it "should reset the cached response if an attribute changes" do
+    use_response(:rate_defaults)
+    
+    fedex = new_fedex
+    rates = fedex.rate
+    rates.attributes = fedex_shipper
+    rates.attributes = fedex_recipient
+    rates.attributes = fedex_package
+    rates.size.should == 6
+    
+    use_response(:rate_non_custom_packaging)
+    
+    rates.packaging_type = "FEDEX_ENVELOPE"
+    rates.package_weight = 0.1
+    rates.size.should == 5
+  end
 end

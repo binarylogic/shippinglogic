@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "shippinglogic"
     gem.summary = "A simple and clean library to interface with shipping carriers"
-    gem.description = "A simple and clean library to interface with shipping carriers"
+    gem.description = "Easily use FedEx, UPS, USPS web services with an elegant and simple syntax."
     gem.email = "bjohnson@binarylogic.com"
     gem.homepage = "http://github.com/binarylogic/shippinglogic"
     gem.authors = ["Ben Johnson of Binary Logic"]

@@ -1,3 +1,7 @@
+== 1.0.6 released 2009-07-09
+
+* Reset the cached response if an attribute changes.
+
 == 1.0.5 released 2009-07-08
 
 * Added request to error objects so you can see both the raw request and response.

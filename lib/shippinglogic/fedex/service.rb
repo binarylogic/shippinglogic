@@ -31,6 +31,11 @@ module Shippinglogic
           target.send(name, *args, &block)
         end
         
+        # Allows the cached response to be reset, specifically when an attribute changes
+        def reset_target
+          @target = nil
+        end
+        
         # For each service you need to overwrite this method. This is where you make the call to fedex
         # and do your magic. See the child classes for examples on how to define this method. It is very
         # important that you cache the result into a variable to avoid uneccessary requests.
