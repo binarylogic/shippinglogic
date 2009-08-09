@@ -169,7 +169,7 @@ module Shippinglogic
               b.DropoffType dropoff_type if dropoff_type
               b.ServiceType service_type if service_type
               b.PackagingType packaging_type if packaging_type
-              b.TotalInsuredValue insured_value if insured_value
+              build_insured_value(b)
               
               b.Shipper do
                 build_contact(b, :shipper)

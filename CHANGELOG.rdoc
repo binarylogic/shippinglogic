@@ -1,3 +1,7 @@
+== 1.0.8 released 2009-07-09
+
+* Fix insurance request format.
+
 == 1.0.7 released 2009-07-09
 
 * Fix decimal conversion bug, cant convert a raw float to a decimal.

@@ -64,6 +64,15 @@ module Shippinglogic
           end
         end
         
+        def build_insured_value(b)
+          if insured_value
+            b.TotalInsuredValue do
+              b.Currency currency_type
+              b.Amount insured_value
+            end
+          end
+        end
+        
         # A convenience method for building the package block in your XML request
         def build_package(b)
           b.PackageCount package_count

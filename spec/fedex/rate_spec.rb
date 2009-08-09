@@ -69,4 +69,17 @@ describe "FedEx Rate" do
     rates.size.should == 1
     rates.first.delivered_by.should == Time.parse("Fri Aug 07 08:00:00 -0400 2009")
   end
+  
+  it "should rate the shipment with an insured value" do
+    use_response(:rate_insurance)
+    
+    fedex = new_fedex
+    rates = fedex.rate
+    
+    rates.attributes = fedex_shipper
+    rates.attributes = fedex_recipient
+    rates.attributes = fedex_package
+    rates.insured_value = 200
+    rates.size.should == 6
+  end
 end
