@@ -14,6 +14,6 @@ describe "FedEx Service" do
   
   it "should delegate the class method to the target" do
     use_response(:track_defaults)
-    new_fedex.track(:tracking_number => fedex_tracking_number).class.should == Array
+    new_fedex.track(:tracking_number => fedex_tracking_number).class.should == Shippinglogic::FedEx::Track::Details
   end
 end

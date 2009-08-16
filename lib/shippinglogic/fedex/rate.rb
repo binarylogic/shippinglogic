@@ -87,7 +87,7 @@ module Shippinglogic
     #   # => "First Overnight"
     class Rate < Service
       # Each rate result is an object of this class
-      class Service; attr_accessor :name, :type, :saturday, :delivered_by, :rate, :currency; end
+      class Service; attr_accessor :name, :type, :saturday, :delivered_by, :speed, :rate, :currency; end
       
       VERSION = {:major => 6, :intermediate => 0, :minor => 0}
       
@@ -176,6 +176,14 @@ module Shippinglogic
             shipment_detail = details[:rated_shipment_details].is_a?(Array) ? details[:rated_shipment_details].first : details[:rated_shipment_details]
             cost = shipment_detail[:shipment_rate_detail][:total_net_charge]
             delivered_by = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
+            speed = case details[:service_type]
+            when /overnight/i
+              1.day
+            when /2_day/i
+              2.days
+            else
+              3.days
+            end
             
             if meets_deadline?(delivered_by)
               service = Service.new
@@ -183,6 +191,7 @@ module Shippinglogic
               service.type = details[:service_type]
               service.saturday = details[:applied_options] == "SATURDAY_DELIVERY"
               service.delivered_by = delivered_by
+              service.speed = speed
               service.rate = BigDecimal.new(cost[:amount])
               service.currency = cost[:currency]
               service

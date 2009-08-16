@@ -1,3 +1,8 @@
+== 1.1.0 released 2009-07-16
+
+* Added another layer to tracking. You dont get an array of events anymore, you get a Shippinglogic::Fedex::Track::Details object that has information the single shipment. Such as delivery date, signature name, etc. To access the events you just call the events method on this object.
+* Added speed to rates.
+
 == 1.0.8 released 2009-07-09
 
 * Fix insurance request format.

@@ -15,9 +15,7 @@ begin
     gem.add_dependency "activesupport", ">= 2.2.0"
     gem.add_dependency "httparty", ">= 0.4.4"
   end
-  Jeweler::RubyforgeTasks.new do |rubyforge|
-    rubyforge.doc_task = nil
-  end
+  Jeweler::RubyforgeTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
@@ -33,5 +31,7 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
 end
+
+task :spec => :check_dependencies
 
 task :default => :spec

@@ -148,7 +148,7 @@ Here is what I did in an application of mine and it worked out great. I also hav
 
   class Shipment < ActiveRecord::Base
     class Service
-      attr_accessor :carrier, :name, delivered_by, :rate
+      attr_accessor :carrier, :name, "delivered_by, :rate
     end
     
     def services
@@ -157,7 +157,7 @@ Here is what I did in an application of mine and it worked out great. I also hav
     
     private
       def fedex_services
-        rate_options = {} # fill me with options accepted by Shippinglogic::FedEx::Rate
+        rate_options = {} # replace me with your own options accepted by Shippinglogic::FedEx::Rate
         fedex.rate(rate_options).collect do |rate|
           service = Service.new
           service.carrier = :fedex

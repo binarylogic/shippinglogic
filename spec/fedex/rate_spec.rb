@@ -17,6 +17,7 @@ describe "FedEx Rate" do
     rate.type.should == "FIRST_OVERNIGHT"
     rate.saturday.should == false
     rate.delivered_by.should == Time.parse("Fri Aug 07 08:00:00 -0400 2009")
+    rate.speed.should == 1.day
     rate.rate.should == 70.01
     rate.currency.should == "USD"
   end
@@ -39,6 +40,7 @@ describe "FedEx Rate" do
     rate.type.should == "FIRST_OVERNIGHT"
     rate.saturday.should == false
     rate.delivered_by.should == Time.parse("Mon Aug 10 08:00:00 -0400 2009")
+    rate.speed.should == 1.day
     rate.rate.should == 50.43
     rate.currency.should == "USD"
   end

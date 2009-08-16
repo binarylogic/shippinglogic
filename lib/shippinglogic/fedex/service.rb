@@ -5,10 +5,7 @@ require "shippinglogic/fedex/validation"
 
 module Shippinglogic
   class FedEx
-    class Service
-      alias_method :real_class, :class
-      instance_methods.each { |m| undef_method m unless m =~ /(^__|^real_class$|^send$|^object_id$)/ }
-      
+    class Service < Proxy
       include Attributes
       include HTTParty
       include Request
@@ -25,12 +22,6 @@ module Shippinglogic
       end
       
       private
-        # We undefined a lot of methods at the beginning of this class. The only methods present in this
-        # class are ones that we need, everything else is delegated to our target object.
-        def method_missing(name, *args, &block)
-          target.send(name, *args, &block)
-        end
-        
         # Allows the cached response to be reset, specifically when an attribute changes
         def reset_target
           @target = nil
