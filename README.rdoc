@@ -36,24 +36,30 @@ See below for usage examples.
 What I think is unique about this library is it's usage / syntax:
   
   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
-  tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
+  tracking_details = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
   # => A proxy object that delegates calls to an array of Shippinglogic::FedEx::Track::Event objects
   
   # this shows that the tracking object is a proxy for the underlying array
-  tracking.tracking_number
+  tracking_details.tracking_number
   # => "XXXXXXXXXXXXXXXXX"
   
-  tracking.tracking_number = "YYYYYYYYYYYYYYYYYY"
+  tracking_details.tracking_number = "YYYYYYYYYYYYYYYYYY"
   # => "YYYYYYYYYYYYYYYYYY"
   
-  tracking.class
-  # => Array
+  tracking_details.class
+  # => Shippinglogic::FedEx::Track::Details
   
-  tracking.first
+  tracking_details.status
+  # => "Delivered"
+  
+  tracking_details.signature_name
+  # => "KKING"
+  
+  tracking_details.events.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
   #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
   
-  tracking.first.name
+  tracking_details.first.name
   # => "Delivered"
 
 == Calls to the web services are lazy
@@ -69,21 +75,21 @@ This is similar to how ActiveRecord's association proxies work. When you call "u
 You will notice above we assign the result of the 'track' method to a variable called 'tracking'. That object has more to it:
 
   # Initializing
-  tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXX")
-  tracking.tracking_number
+  tracking_details = fedex.track(:tracking_number => "XXXXXXXXXXXXX")
+  tracking_details.tracking_number
   # => "XXXXXXXXXXXXX"
   
   # Attribute accessors
-  tracking.tracking_number = "YYYYYYYYYYYYYYY"
-  tracking.tracking_number
+  tracking_details.tracking_number = "YYYYYYYYYYYYYYY"
+  tracking_details.tracking_number
   # => "YYYYYYYYYYYYYYY"
   
   # Mass attribute setting
-  tracking.attributes = {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
-  tracking.tracking_number
+  tracking_details.attributes = {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
+  tracking_details.tracking_number
   # => "ZZZZZZZZZZZZZZZZ"
   
-  tracking.attributes
+  tracking_details.attributes
   # => {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
 
 == Available services and their features
@@ -110,11 +116,11 @@ What's nice about having an object is that you can pass it around. Let's say you
 
   class TrackingController < ApplicationController
     def new
-      @tracking = fedex.track(params[:tracking])
+      @tracking_details = fedex.track(params[:tracking])
     end
     
     def create
-      @tracking = fedex.track(params[:tracking])
+      @tracking_details = fedex.track(params[:tracking])
       render :action => :new if !@tracking.successful?
     end
     
@@ -127,7 +133,7 @@ What's nice about having an object is that you can pass it around. Let's say you
 That's pretty simple. Now check out your form:
   
   # new.html.haml
-  - form_for @tracking do |f|
+  - form_for @tracking_details do |f|
     = f.error_messages
     = f.text_field :tracking_number
     = f.submit "Track"
@@ -135,7 +141,8 @@ That's pretty simple. Now check out your form:
 Then your results:
 
   # create.html.haml
-  - @tracking.each do |event|
+  .signature_name= @tracking_details.signature_name
+  - @tracking_details.events.each do |event|
     .event
       .name= event.name
       .occured_at= event.occured_at.to_s(:long)

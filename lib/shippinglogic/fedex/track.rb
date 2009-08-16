@@ -12,12 +12,19 @@ module Shippinglogic
     # Here is a very simple example:
     #
     #   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
-    #   tracking = fedex.track(:tracking_number => "my number")
-    #   tracking.first
+    #   tracking_details = fedex.track(:tracking_number => "my number")
+    #
+    #   tracking_details.status
+    #   # => "Delivered"
+    #   
+    #   tracking_details.signature_name
+    #   # => "KKING"
+    #   
+    #   tracking_details.events.first
     #   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
     #   #     @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
     #   
-    #   tracking.first.name
+    #   tracking_details.events.first.name
     #   # => "Delivered"
     #
     # === Note
@@ -43,7 +50,6 @@ module Shippinglogic
           :service_type,
           :status,
           :delivery_at,
-          :tracking_number,
           :events
         
         def origin_residential?
@@ -71,7 +77,6 @@ module Shippinglogic
           self.service_type = details[:service_type]
           self.status = details[:status_description]
           self.delivery_at = Time.parse(details[:actual_delivery_timestamp])
-          self.tracking_number = details[:tracking_number]
           
           self.events = response[:track_details][:events].collect do |details|
             event = Event.new
