@@ -46,9 +46,11 @@ module Shippinglogic
         # A convenience method for building the contact block in your XML request
         def build_contact(b, type)
           b.Contact do
-            b.Contact send("#{type}_name") if send("#{type}_name")
+            b.PersonName send("#{type}_name") if send("#{type}_name")
+            b.Title send("#{type}_title") if send("#{type}_title")
             b.CompanyName send("#{type}_company_name") if send("#{type}_company_name")
             b.PhoneNumber send("#{type}_phone_number") if send("#{type}_phone_number")
+            b.EmailAddress send("#{type}_email") if send("#{type}_email")
           end
         end
         

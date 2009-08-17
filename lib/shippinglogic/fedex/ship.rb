@@ -6,6 +6,11 @@ module Shippinglogic
     # == Options
     # === Shipper options
     #
+    # * <tt>shipper_name</tt> - name of the shipper.
+    # * <tt>shipper_title</tt> - title of the shipper.
+    # * <tt>shipper_company_name</tt> - company name of the shipper.
+    # * <tt>shipper_phone_number</tt> - phone number of the shipper.
+    # * <tt>shipper_email</tt> - email of the shipper.
     # * <tt>shipper_streets</tt> - street part of the address, separate multiple streets with a new line, dont include blank lines.
     # * <tt>shipper_city</tt> - city part of the address.
     # * <tt>shipper_state_</tt> - state part of the address, use state abreviations.
@@ -15,6 +20,11 @@ module Shippinglogic
     #
     # === Recipient options
     #
+    # * <tt>recipient_name</tt> - name of the recipient.
+    # * <tt>recipient_title</tt> - title of the recipient.
+    # * <tt>recipient_company_name</tt> - company name of the recipient.
+    # * <tt>recipient_phone_number</tt> - phone number of the recipient.
+    # * <tt>recipient_email</tt> - email of the recipient.
     # * <tt>recipient_streets</tt> - street part of the address, separate multiple streets with a new line, dont include blank lines.
     # * <tt>recipient_city</tt> - city part of the address.
     # * <tt>recipient_state</tt> - state part of the address, use state abreviations.
@@ -65,6 +75,7 @@ module Shippinglogic
     #
     # === Misc options
     #
+    # * <tt>just_validate</tt> - will tell FedEx to ONLY validate the shipment, not actually create it. (default: false)
     # * <tt>rate_request_types</tt> - one or more of RATE_REQUEST_TYPES. (default: ACCOUNT)
     #
     # == Simple Example
@@ -98,8 +109,10 @@ module Shippinglogic
       
       # shipper options
       attribute :shipper_name,                :string
+      attribute :shipper_title,               :string
       attribute :shipper_company_name,        :string
       attribute :shipper_phone_number,        :string
+      attribute :shipper_email,               :string
       attribute :shipper_streets,             :string
       attribute :shipper_city,                :string
       attribute :shipper_state,               :string
@@ -109,8 +122,10 @@ module Shippinglogic
       
       # recipient options
       attribute :recipient_name,              :string
+      attribute :recipient_title,             :string
       attribute :recipient_company_name,      :string
       attribute :recipient_phone_number,      :string
+      attribute :recipient_email,             :string
       attribute :recipient_streets,           :string
       attribute :recipient_city,              :string
       attribute :recipient_state,             :string
@@ -149,6 +164,7 @@ module Shippinglogic
       attribute :signature,                   :string
       
       # misc options
+      attribute :just_validate,               :boolean,     :default => false
       attribute :rate_request_types,          :array,       :default => ["ACCOUNT"]
       
       private
@@ -159,7 +175,7 @@ module Shippinglogic
         # Just building some XML to send off to FedEx using our various options
         def build_request
           b = builder
-          xml = b.ProcessShipmentRequest(:xmlns => "http://fedex.com/ws/ship/v#{VERSION[:major]}") do
+          xml = b.tag!(just_validate ? "ValidateShipmentRequest" : "ProcessShipmentRequest", :xmlns => "http://fedex.com/ws/ship/v#{VERSION[:major]}") do
             build_authentication(b)
             build_version(b, "ship", VERSION[:major], VERSION[:intermediate], VERSION[:minor])
             b.SpecialServicesRequested special_services_requested.join(",") if special_services_requested.any?
