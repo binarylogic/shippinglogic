@@ -63,6 +63,7 @@ Spec::Runner.configure do |config|
     {
       :recipient_name => "Name",
       :recipient_title => "Title",
+      :recipient_department => "Department",
       :recipient_company_name => "Dallas City Hall",
       :recipient_phone_number => "2222222222",
       :recipient_email => "a@a.com",

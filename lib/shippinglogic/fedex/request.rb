@@ -48,10 +48,9 @@ module Shippinglogic
           b.Contact do
             b.PersonName send("#{type}_name") if send("#{type}_name")
             b.Title send("#{type}_title") if send("#{type}_title")
-            b.Department send("#{type}_department") if send("#{type}_department")
             b.CompanyName send("#{type}_company_name") if send("#{type}_company_name")
             b.PhoneNumber send("#{type}_phone_number") if send("#{type}_phone_number")
-            b.EmailAddress send("#{type}_email") if send("#{type}_email")
+            b.EMailAddress send("#{type}_email") if send("#{type}_email")
           end
         end
         

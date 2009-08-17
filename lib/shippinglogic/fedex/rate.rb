@@ -8,7 +8,6 @@ module Shippinglogic
     #
     # * <tt>shipper_name</tt> - name of the shipper.
     # * <tt>shipper_title</tt> - title of the shipper.
-    # * <tt>shipper_department</tt> - department of the shipper.
     # * <tt>shipper_company_name</tt> - company name of the shipper.
     # * <tt>shipper_phone_number</tt> - phone number of the shipper.
     # * <tt>shipper_email</tt> - email of the shipper.
@@ -23,7 +22,6 @@ module Shippinglogic
     #
     # * <tt>recipient_name</tt> - name of the recipient.
     # * <tt>recipient_title</tt> - title of the recipient.
-    # * <tt>recipient_department</tt> - department of the recipient.
     # * <tt>recipient_company_name</tt> - company name of the recipient.
     # * <tt>recipient_phone_number</tt> - phone number of the recipient.
     # * <tt>recipient_email</tt> - email of the recipient.
@@ -106,7 +104,6 @@ module Shippinglogic
       # shipper options
       attribute :shipper_name,                :string
       attribute :shipper_title,               :string
-      attribute :shipper_department,          :string
       attribute :shipper_company_name,        :string
       attribute :shipper_phone_number,        :string
       attribute :shipper_email,               :string
@@ -120,7 +117,6 @@ module Shippinglogic
       # recipient options
       attribute :recipient_name,              :string
       attribute :recipient_title,             :string
-      attribute :recipient_department,        :string
       attribute :recipient_company_name,      :string
       attribute :recipient_phone_number,      :string
       attribute :recipient_email,             :string
