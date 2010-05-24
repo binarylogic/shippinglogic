@@ -23,7 +23,7 @@ module Shippinglogic
     # * <tt>:production_url</tt> - the production URL for FedEx's webservices. (default: https://gateway.fedex.com:443/xml)
     def self.options
       @options ||= {
-        :test => defined?(Rails) && !Rails.env.production?,
+        :test => !!(defined?(Rails) && !Rails.env.production?),
         :production_url => "https://gateway.fedex.com:443/xml",
         :test_url => "https://gatewaybeta.fedex.com:443/xml"
       }

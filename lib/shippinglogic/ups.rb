@@ -14,7 +14,7 @@ module Shippinglogic
     # * <tt>:production_url</tt> - the production URL for UPS's webservices. (default: https://www.ups.com:443/ups.app/xml)
     def self.options
       @options ||= {
-        :test => defined?(Rails) && !Rails.env.production?,
+        :test => !!(defined?(Rails) && !Rails.env.production?),
         :production_url => "https://www.ups.com:443/ups.app/xml",
         :test_url => "https://wwwcie.ups.com:443/ups.app/xml"
       }
