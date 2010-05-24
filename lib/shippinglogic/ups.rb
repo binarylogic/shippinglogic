@@ -20,6 +20,11 @@ module Shippinglogic
       }
     end
 
+    # A convenience method for accessing the endpoint URL for the UPS API.
+    def self.url
+      options[:test] ? options[:test_url] : options[:production_url]
+    end
+
     attr_accessor :key, :password, :account, :meter, :options
 
     # Before you can use the UPS web services you need to provide 3 credentials:
