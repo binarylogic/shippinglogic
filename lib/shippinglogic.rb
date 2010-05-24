@@ -1,4 +1,4 @@
-require "activesupport"
+require "active_support"
 require "httparty"
 require "shippinglogic/proxy"
 require "shippinglogic/attributes"
