@@ -25,7 +25,7 @@ module Shippinglogic
       options[:test] ? options[:test_url] : options[:production_url]
     end
 
-    attr_accessor :key, :password, :account, :meter, :options
+    attr_accessor :key, :password, :account, :options
 
     # Before you can use the UPS web services you need to provide 3 credentials:
     #
