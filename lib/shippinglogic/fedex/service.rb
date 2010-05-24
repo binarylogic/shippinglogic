@@ -1,7 +1,5 @@
-require "shippinglogic/fedex/attributes"
 require "shippinglogic/fedex/request"
 require "shippinglogic/fedex/response"
-require "shippinglogic/fedex/validation"
 
 module Shippinglogic
   class FedEx
