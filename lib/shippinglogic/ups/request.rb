@@ -26,6 +26,20 @@ module Shippinglogic
             b.Password base.password
           end
         end
+        
+        # A convenience method for choosing the appropriate tracking reference number to include a
+        # UPS tracking XML request.
+        def build_effective_tracking_number(b)
+          if tracking_number
+            b.TrackingNumber tracking_number
+          elsif shipment_identification_number
+            b.ShipmentIdentificationNumber shipment_identification_number
+          elsif reference_number
+            b.ReferenceNumber reference_number
+          else
+            b.TrackingNumber
+          end
+        end
     end
   end
 end

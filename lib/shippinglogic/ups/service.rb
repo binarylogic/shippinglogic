@@ -1,5 +1,5 @@
 require "shippinglogic/ups/request"
-#require "shippinglogic/ups/response"
+require "shippinglogic/ups/response"
 
 module Shippinglogic
   class UPS
