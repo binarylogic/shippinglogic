@@ -96,7 +96,7 @@ module Shippinglogic
           @target ||= Details.new(request(build_request))
         end
         
-        # Just building some XML to send off to UPS. UPS require this particualr format.
+        # Just building some XML to send off to UPS. UPS requires this particualar format.
         def build_request
           b = builder
           build_authentication(b)
