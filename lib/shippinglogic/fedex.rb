@@ -29,11 +29,6 @@ module Shippinglogic
       }
     end
 
-    # A convenience method for accessing the endpoint URL for the FedEx API.
-    def self.url
-      options[:test] ? options[:test_url] : options[:production_url]
-    end
-
     attr_accessor :key, :password, :account, :meter, :options
 
     # Before you can use the FedEx web services you need to provide 4 credentials:
@@ -60,6 +55,11 @@ module Shippinglogic
       self.account = account
       self.meter = meter
       self.options = self.class.options.merge(options)
+    end
+    
+    # A convenience method for accessing the endpoint URL for the FedEx API.
+    def url
+      options[:test] ? options[:test_url] : options[:production_url]
     end
     
     def cancel(attributes = {})

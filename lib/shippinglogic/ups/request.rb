@@ -5,7 +5,7 @@ module Shippinglogic
       private
         # Convenience method for sending requests to UPS
         def request(body)
-          real_class.post(base.url, :body => body)
+          real_class.post(base.url + real_class.path, :body => body)
         end
         
         # Convenience method to create a builder object so that our builder options are consistent across
