@@ -27,7 +27,7 @@ module Shippinglogic
           cut_to_the_chase(sanitize_response_keys(response))
         end
         
-        # FedEx likes nested XML tags, because they send quite a bit of them back in responses.
+        # UPS likes nested XML tags, because they send quite a bit of them back in responses.
         # This method just 'cuts to the chase' and get to the heart of the response.
         def cut_to_the_chase(response)
           response.values.first
