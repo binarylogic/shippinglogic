@@ -1,3 +1,12 @@
+#require "shippinglogic/ups/enumerations"
+#require "shippinglogic/ups/error"
+require "shippinglogic/ups/service"
+#require "shippinglogic/ups/cancel"
+#require "shippinglogic/ups/rate"
+#require "shippinglogic/ups/ship"
+#require "shippinglogic/ups/signature"
+#require "shippinglogic/ups/track"
+
 module Shippinglogic
   class UPS
     # A hash representing default the options. If you are using this in a Rails app the best place
