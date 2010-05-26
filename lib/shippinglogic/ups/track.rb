@@ -27,6 +27,12 @@ module Shippinglogic
     #   tracking_details.events.first.name
     #   # => "Delivered"
     #
+    # === Note
+    #
+    # UPS does support locating packages through means other than a tracking number.
+    # These are not supported and probably won't be until someone needs them. It should
+    # be fairly simple to add, but I could not think of a reason why anyone would want to track
+    # a package with anything other than a tracking number.
     class Track < Service
       def self.path
         "/Track"
@@ -81,9 +87,7 @@ module Shippinglogic
         end
       end
       
-      attribute :tracking_number,                 :string
-      attribute :shipment_identification_number,  :string
-      attribute :reference_number,                :string
+      attribute :tracking_number, :string
       
       private
         # The parent class Service requires that we define this method. This is our kicker. This method is only
@@ -104,7 +108,7 @@ module Shippinglogic
               b.RequestOption "activity"
             end
             
-            build_effective_tracking_number(b)
+            b.TrackingNumber tracking_number
           end
         end
     end
