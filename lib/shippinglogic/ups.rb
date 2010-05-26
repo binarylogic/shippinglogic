@@ -1,5 +1,5 @@
 #require "shippinglogic/ups/enumerations"
-#require "shippinglogic/ups/error"
+require "shippinglogic/ups/error"
 require "shippinglogic/ups/service"
 #require "shippinglogic/ups/cancel"
 #require "shippinglogic/ups/rate"
