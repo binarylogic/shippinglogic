@@ -5,7 +5,7 @@ require "shippinglogic/ups/service"
 #require "shippinglogic/ups/rate"
 #require "shippinglogic/ups/ship"
 #require "shippinglogic/ups/signature"
-#require "shippinglogic/ups/track"
+require "shippinglogic/ups/track"
 
 module Shippinglogic
   class UPS
@@ -52,6 +52,10 @@ module Shippinglogic
 
     def url
       options[:test] ? options[:test_url] : options[:production_url]
+    end
+
+    def track(attributes = {})
+      @track ||= Track.new(self, attributes)
     end
   end
 end
