@@ -49,9 +49,9 @@ module Shippinglogic
       self.options = self.class.options.merge(options)
     end
     # A convenience method for accessing the endpoint URL for the UPS API.
+
     def url
       options[:test] ? options[:test_url] : options[:production_url]
     end
-    
   end
 end
