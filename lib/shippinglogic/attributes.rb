@@ -3,6 +3,8 @@ module Shippinglogic
   module Attributes
     def self.included(klass)
       klass.class_eval do
+        alias_method(:real_class, :class) unless method_defined? :real_class
+        
         extend ClassMethods
         include InstanceMethods
       end
@@ -67,7 +69,7 @@ module Shippinglogic
         end
         
         def attribute_options(name)
-          self.real_class.attribute_options(name)
+          real_class.attribute_options(name)
         end
         
         def attribute_type(name)
