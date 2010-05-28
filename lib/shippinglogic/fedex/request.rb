@@ -1,3 +1,5 @@
+require "builder"
+
 module Shippinglogic
   class FedEx
     # Methods relating to building and sending a request to FedEx's web services.

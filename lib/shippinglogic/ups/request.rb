@@ -1,3 +1,5 @@
+require "builder"
+
 module Shippinglogic
   class UPS
     # Methods relating to building and sending a request to UPS's web services.
