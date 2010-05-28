@@ -1,3 +1,5 @@
+require "base64"
+
 module Shippinglogic
   class FedEx
     # An interface to the signature proof of delivery services provided by FedEx. Allows you to get an image

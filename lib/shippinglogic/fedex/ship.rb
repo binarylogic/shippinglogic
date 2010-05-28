@@ -1,3 +1,5 @@
+require "base64"
+
 module Shippinglogic
   class FedEx
     # An interface to the shipe services provided by FedEx. Allows you to create shipments and get various information on the shipment
