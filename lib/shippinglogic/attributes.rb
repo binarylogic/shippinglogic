@@ -40,7 +40,8 @@ module Shippinglogic
     
     module InstanceMethods
       # A convenience so that you can set attributes while initializing an object
-      def initialize(base, attributes = {})
+      def initialize(*args)
+        attributes = args.last.is_a?(Hash) ? args.last : {}
         @attributes = {}
         self.attributes = attributes
       end
