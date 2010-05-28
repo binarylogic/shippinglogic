@@ -4,7 +4,7 @@ require 'rubygems'
 require 'shippinglogic'
 require 'spec'
 require 'spec/autorun'
-require 'ruby-debug'
+begin; require 'ruby-debug'; rescue LoadError; end
 require 'fakeweb'
 require File.dirname(__FILE__) + "/lib/interceptor"
 

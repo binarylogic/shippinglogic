@@ -12,7 +12,6 @@ begin
     gem.authors = ["Ben Johnson of Binary Logic"]
     gem.rubyforge_project = "shippinglogic"
     gem.add_development_dependency "rspec"
-    gem.add_development_dependency "ruby-debug"
     gem.add_development_dependency "fakeweb"
     gem.add_dependency "httparty", ">= 0.4.4"
     gem.add_dependency "builder", ">= 2.1.2"
