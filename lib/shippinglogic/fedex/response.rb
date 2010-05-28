@@ -1,3 +1,5 @@
+require "shippinglogic/fedex/error"
+
 module Shippinglogic
   class FedEx
     # Methods relating to receiving a response from FedEx and cleaning it up.

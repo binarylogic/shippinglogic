@@ -1,3 +1,8 @@
+require "httparty"
+require "shippinglogic/proxy"
+require "shippinglogic/attributes"
+require "shippinglogic/validation"
+
 module Shippinglogic
   class Service < Proxy
     include Attributes

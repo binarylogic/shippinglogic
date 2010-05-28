@@ -1,3 +1,5 @@
+require "shippinglogic/ups/error"
+
 module Shippinglogic
   class UPS
     # Methods relating to receiving a response from UPS and cleaning it up.

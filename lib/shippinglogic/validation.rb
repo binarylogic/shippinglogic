@@ -1,3 +1,5 @@
+require "shippinglogic/error"
+
 module Shippinglogic
   # This module is more for application integration, so you can do something like:
   #
