@@ -198,11 +198,11 @@ module Shippinglogic
             delivered_by = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
             speed = case details[:service_type]
             when /overnight/i
-              1.day
+              86400 # 1.day
             when /2_day/i
-              2.days
+              172800 # 2.days
             else
-              3.days
+              259200 # 3.days
             end
             
             if meets_deadline?(delivered_by)
