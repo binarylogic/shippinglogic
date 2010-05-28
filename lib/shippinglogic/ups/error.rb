@@ -38,7 +38,7 @@ module Shippinglogic
           )
         end
         
-        super(errors.collect { |error| error[:message] }.to_sentence)
+        super(errors.collect { |error| error[:message].sub(/([^\.])$/, '\1.') }.join(" "))
       end
       
       def add_error(error, code = nil)
