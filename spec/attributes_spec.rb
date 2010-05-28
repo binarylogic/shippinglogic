@@ -58,4 +58,13 @@ describe "Service Attributes" do
     service = Service.new
     service.datetime_with_default_proc.to_s.should == Time.now.to_s
   end
+  
+  it "should parse string representations of times" do
+    service = Service.new
+    service.datetime_without_default = "19551105000000"
+    service.datetime_without_default.should be_a Time
+    service.datetime_without_default.strftime("%B") == "November"
+    service.datetime_without_default.day.should == 5
+    service.datetime_without_default.year.should == 1955
+  end
 end
