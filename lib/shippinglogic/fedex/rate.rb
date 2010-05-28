@@ -207,7 +207,7 @@ module Shippinglogic
             
             if meets_deadline?(delivered_by)
               service = Service.new
-              service.name = details[:service_type].titleize
+              service.name = details[:service_type].gsub("_", " ").gsub(/\b(\w)(\w*)/){ $1 + $2.downcase }
               service.type = details[:service_type]
               service.saturday = details[:applied_options] == "SATURDAY_DELIVERY"
               service.delivered_by = delivered_by
