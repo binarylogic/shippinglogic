@@ -63,7 +63,7 @@ module Shippinglogic
         # I also did not want to use the underscore method provided by ActiveSupport because I am trying
         # to avoid using that as a dependency.
         def sanitize_response_key(key)
-          key.to_s.gsub(/^(v[0-9]|ns):/, "").underscore.to_sym
+          key.to_s.sub(/^(v[0-9]|ns):/, "").gsub(/([a-z])([A-Z])/, '\1_\2').downcase.to_sym
         end
     end
   end
