@@ -85,7 +85,6 @@ module Shippinglogic
         end
         
         def write_attribute(name, value)
-          reset_target
           @attributes[name.to_sym] = value
         end
         
