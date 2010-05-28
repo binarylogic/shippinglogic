@@ -39,8 +39,8 @@ describe "Service Attributes" do
   it "should allow reading attributes" do
     service = Service.new
     service.attributes = {:string_without_default => "TEST"}
-    service.attributes.should be_a Hash
-    service.attributes.should have_key :string_without_default
+    service.attributes.should be_a(Hash)
+    service.attributes.should have_key(:string_without_default)
     service.attributes[:string_without_default].should == "TEST"
   end
   
@@ -62,7 +62,7 @@ describe "Service Attributes" do
   it "should parse string representations of times" do
     service = Service.new
     service.datetime_without_default = "19551105000000"
-    service.datetime_without_default.should be_a Time
+    service.datetime_without_default.should be_a(Time)
     service.datetime_without_default.strftime("%B") == "November"
     service.datetime_without_default.day.should == 5
     service.datetime_without_default.year.should == 1955
