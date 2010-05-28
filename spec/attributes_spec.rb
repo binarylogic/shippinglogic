@@ -1,20 +1,18 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Service Attributes" do
-  before(:all) do
-    class Service
-      ATTRIBUTE_TYPES = %w(array integer float decimal boolean string text datetime)
-      
-      include Shippinglogic::Attributes
-      
-      ATTRIBUTE_TYPES.each do |type|
-        attribute :"#{type}_without_default",     type
-        attribute :"#{type}_with_default_value",  type, :default => 1
-        attribute :"#{type}_with_default_proc",   type, :default => lambda{ Time.now }
-      end
-    end
-  end
+class Service
+  ATTRIBUTE_TYPES = %w(array integer float decimal boolean string text datetime)
   
+  include Shippinglogic::Attributes
+  
+  ATTRIBUTE_TYPES.each do |type|
+    attribute :"#{type}_without_default",     type
+    attribute :"#{type}_with_default_value",  type, :default => 1
+    attribute :"#{type}_with_default_proc",   type, :default => lambda{|s| Time.now }
+  end
+end
+
+describe "Service Attributes" do
   after(:all) do
     Object.send(:remove_const, :Service)
   end
