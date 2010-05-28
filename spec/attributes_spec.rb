@@ -5,11 +5,10 @@ class Service
   
   include Shippinglogic::Attributes
   
-  ATTRIBUTE_TYPES.each do |type|
-    attribute :"#{type}_without_default",     type
-    attribute :"#{type}_with_default_value",  type, :default => 1
-    attribute :"#{type}_with_default_proc",   type, :default => lambda{|s| Time.now }
-  end
+  attribute :tracking_number,             :string
+  attribute :packaging_type,              :string,    :default => "YOUR_PACKAGING"
+  attribute :special_services_requested,  :array
+  attribute :ship_time,                   :datetime,  :default => lambda { |shipment| Time.now }
 end
 
 describe "Service Attributes" do
@@ -18,51 +17,51 @@ describe "Service Attributes" do
   end
   
   it "should allow setting attributes upon initialization" do
-    service = Service.new(:string_without_default => "TEST")
-    service.string_without_default.should == "TEST"
+    service = Service.new(:tracking_number => "TEST")
+    service.tracking_number.should == "TEST"
   end
   
   it "should allow setting attributes individually" do
     service = Service.new
-    service.string_without_default = "TEST"
-    service.string_without_default.should == "TEST"
+    service.tracking_number = "TEST"
+    service.tracking_number.should == "TEST"
   end
   
   it "should allow setting attributes with a hash" do
     service = Service.new
-    service.attributes = {:string_without_default => "TEST"}
-    service.string_without_default.should == "TEST"
+    service.attributes = {:tracking_number => "TEST"}
+    service.tracking_number.should == "TEST"
   end
   
   it "should allow reading attributes" do
     service = Service.new
-    service.attributes = {:string_without_default => "TEST"}
+    service.attributes = {:tracking_number => "TEST"}
     service.attributes.should be_a(Hash)
-    service.attributes.should have_key(:string_without_default)
-    service.attributes[:string_without_default].should == "TEST"
+    service.attributes.should have_key(:tracking_number)
+    service.attributes[:tracking_number].should == "TEST"
   end
   
   it "should implement defaults" do
     service = Service.new
-    service.integer_with_default_value.should == 1
+    service.packaging_type.should == "YOUR_PACKAGING"
   end
   
   it "should use blank array as defaults for arrays" do
     service = Service.new
-    service.array_without_default.should == []
+    service.special_services_requested.should == []
   end
   
   it "should call procs during run time if a default is a proc" do
     service = Service.new
-    service.datetime_with_default_proc.to_s.should == Time.now.to_s
+    service.ship_time.to_s.should == Time.now.to_s
   end
   
   it "should parse string representations of times" do
     service = Service.new
-    service.datetime_without_default = "19551105000000"
-    service.datetime_without_default.should be_a(Time)
-    service.datetime_without_default.strftime("%B") == "November"
-    service.datetime_without_default.day.should == 5
-    service.datetime_without_default.year.should == 1955
+    service.ship_time = "19551105000000"
+    service.ship_time.should be_a(Time)
+    service.ship_time.strftime("%B") == "November"
+    service.ship_time.day.should == 5
+    service.ship_time.year.should == 1955
   end
 end
