@@ -110,6 +110,8 @@ module Shippinglogic
             ["true", "1"].include?(value.to_s)
           when :string, :text
             value.to_s
+          when :datetime
+            Time.parse(value.to_s)
           else
             value
           end
