@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-class Service
+class ServiceWithAttributes
   include Shippinglogic::Attributes
   
   attribute :tracking_number,             :string
@@ -11,28 +11,28 @@ end
 
 describe "Service Attributes" do
   after(:all) do
-    Object.send(:remove_const, :Service)
+    Object.send(:remove_const, :ServiceWithAttributes)
   end
   
   it "should allow setting attributes upon initialization" do
-    service = Service.new(:tracking_number => "TEST")
+    service = ServiceWithAttributes.new(:tracking_number => "TEST")
     service.tracking_number.should == "TEST"
   end
   
   it "should allow setting attributes individually" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.tracking_number = "TEST"
     service.tracking_number.should == "TEST"
   end
   
   it "should allow setting attributes with a hash" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.attributes = {:tracking_number => "TEST"}
     service.tracking_number.should == "TEST"
   end
   
   it "should allow reading attributes" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.attributes = {:tracking_number => "TEST"}
     service.attributes.should be_a(Hash)
     service.attributes.should have_key(:tracking_number)
@@ -40,22 +40,22 @@ describe "Service Attributes" do
   end
   
   it "should implement defaults" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.packaging_type.should == "YOUR_PACKAGING"
   end
   
   it "should use blank array as defaults for arrays" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.special_services_requested.should == []
   end
   
   it "should call procs during run time if a default is a proc" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.ship_time.to_s.should == Time.now.to_s
   end
   
   it "should parse string representations of times" do
-    service = Service.new
+    service = ServiceWithAttributes.new
     service.ship_time = "19551105000000"
     service.ship_time.should be_a(Time)
     service.ship_time.strftime("%B") == "November"
