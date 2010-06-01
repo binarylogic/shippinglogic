@@ -1,8 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 class Service
-  ATTRIBUTE_TYPES = %w(array integer float decimal boolean string text datetime)
-  
   include Shippinglogic::Attributes
   
   attribute :tracking_number,             :string
