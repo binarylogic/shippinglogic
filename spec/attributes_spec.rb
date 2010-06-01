@@ -1,15 +1,17 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-class ServiceWithAttributes
-  include Shippinglogic::Attributes
-  
-  attribute :tracking_number,             :string
-  attribute :packaging_type,              :string,    :default => "YOUR_PACKAGING"
-  attribute :special_services_requested,  :array
-  attribute :ship_time,                   :datetime,  :default => lambda { |shipment| Time.now }
-end
-
 describe "Service Attributes" do
+  before(:all) do
+    class ::ServiceWithAttributes
+      include Shippinglogic::Attributes
+      
+      attribute :tracking_number,             :string
+      attribute :packaging_type,              :string,    :default => "YOUR_PACKAGING"
+      attribute :special_services_requested,  :array
+      attribute :ship_time,                   :datetime,  :default => lambda { |shipment| Time.now }
+    end
+  end
+  
   after(:all) do
     Object.send(:remove_const, :ServiceWithAttributes)
   end

@@ -1,10 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-class ServiceWithValidation
-  include Shippinglogic::Validation
-end
-
 describe "Service Validation" do
+  before(:all) do
+    class ::ServiceWithValidation
+      include Shippinglogic::Validation
+    end
+  end
+  
   after(:all) do
     Object.send(:remove_const, :ServiceWithValidation)
   end
@@ -14,7 +16,7 @@ describe "Service Validation" do
     service.errors.should == []
   end
   
-  #context "when calling the valid? method" do
+  context "when calling the valid? method" do
     it "should call the target method" do
       service = ServiceWithValidation.new
       service.should_receive(:target)
@@ -42,5 +44,5 @@ describe "Service Validation" do
       service.errors.size.should == 1
       service.errors.first.should == "ERROR"
     end
-  #end
+  end
 end
