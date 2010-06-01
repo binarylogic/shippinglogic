@@ -11,11 +11,22 @@ describe "Shippinglogic Proxy" do
     proxy.real_class.should == Shippinglogic::Proxy
   end
   
+  it "should preserve the send method" do
+    proxy = Shippinglogic::Proxy.new(nil)
+    proxy.send(:real_class).should == proxy.real_class
+  end
+  
   it "should preserve the double-underscore methods" do
     target = "TARGET"
     proxy = Shippinglogic::Proxy.new(target)
     proxy.__id__.should_not == target.__id__
-    proxy.__send__(:real_class).should_not == target.__send__(:class)
+    proxy.__send__(:real_class).should == proxy.real_class
+  end
+  
+  it "should preserve the object_id method" do
+    target = "TARGET"
+    proxy = Shippinglogic::Proxy.new(target)
+    proxy.object_id.should_not == target.object_id
   end
   
   it "should delegate all other methods to the target" do
@@ -23,6 +34,5 @@ describe "Shippinglogic Proxy" do
     proxy = Shippinglogic::Proxy.new(target)
     proxy.class.should == target.class
     proxy.size.should == target.size
-    proxy.object_id.should == target.object_id
   end
 end
