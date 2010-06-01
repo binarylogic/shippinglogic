@@ -30,9 +30,13 @@ describe "Shippinglogic Proxy" do
   end
   
   it "should delegate all other methods to the target" do
-    target = ["TESTING", 1, 2, 3]
+    target = " Target "
     proxy = Shippinglogic::Proxy.new(target)
-    proxy.class.should == target.class
-    proxy.size.should == target.size
+    methods = [:size, :upcase, :downcase, :strip]
+    
+    methods.each do |method|
+      target.should_receive(method).twice
+      proxy.send(method).should == target.send(method)
+    end
   end
 end
