@@ -51,5 +51,9 @@ module Shippinglogic
     def track(attributes = {})
       @track ||= Track.new(self, attributes)
     end
+
+    def rate(attributes = {})
+      @rate ||= Rate.new(self, attributes)
+    end
   end
 end

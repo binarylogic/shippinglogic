@@ -213,7 +213,6 @@ module Shippinglogic
         end
         
         def parse_response(response)
-          puts response.inspect
           return [] if !response[:rated_shipment]
           
           response[:rated_shipment].collect do |details|
