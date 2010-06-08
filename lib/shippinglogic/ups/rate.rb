@@ -74,12 +74,12 @@ module Shippinglogic
     #   )
     #
     #   rates.first
-    #   #<Shippinglogic::UPS::Rates::Rate @currency="USD", @name="First Overnight", @cost=#<BigDecimal:19ea290,'0.7001E2',8(8)>,
-    #     @deadline=Fri Aug 07 08:00:00 -0400 2009, @type="FIRST_OVERNIGHT", @saturday=false>
+    #   #<Shippinglogic::UPS::Rate::Service:0x10354d108 @currency="USD", @speed=nil,
+    #     @rate=#<BigDecimal:10353ac10,'0.1885E2',18(18)>, @type="Ground", @name="Ground">
     #   
     #   # to show accessor methods
     #   rates.first.name
-    #   # => "First Overnight"
+    #   # => "Ground"
     class Rate < Service
       def self.path
         "/Rate"
