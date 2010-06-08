@@ -50,15 +50,17 @@ module Shippinglogic
         def initialize(response)
           details = response[:shipment]
           
-          origin              = details[:shipper][:address]
-          self.origin_city    = origin[:city]
-          self.origin_state   = origin[:state_province_code]
-          self.origin_country = origin[:country_code]
+          if origin = details.fetch(:shipper, {})[:address]
+            self.origin_city    = origin[:city]
+            self.origin_state   = origin[:state_province_code]
+            self.origin_country = origin[:country_code]
+          end
           
-          destination               = details[:ship_to][:address]
-          self.destination_city     = destination[:city]
-          self.destination_state    = destination[:state_province_code]
-          self.destination_country  = destination[:country_code]
+          if destination = details.fetch(:ship_to, {})[:address]
+            self.destination_city     = destination[:city]
+            self.destination_state    = destination[:state_province_code]
+            self.destination_country  = destination[:country_code]
+          end
           
           package     = details[:package]
           events      = package[:activity].is_a?(Array) ? package[:activity] : [package[:activitiy]].compact
