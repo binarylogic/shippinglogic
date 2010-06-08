@@ -88,8 +88,6 @@ module Shippinglogic
       # Each rate result is an object of this class
       class Service; attr_accessor :name, :type, :speed, :rate, :currency; end
       
-      VERSION = {:major => 6, :intermediate => 0, :minor => 0}
-      
       # shipper options
       attribute :shipper_name,                :string
       attribute :shipper_streets,             :string
