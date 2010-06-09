@@ -1,4 +1,6 @@
 require "shippinglogic/ups/service"
+require "shippinglogic/ups/cancel"
+require "shippinglogic/ups/rate"
 require "shippinglogic/ups/track"
 
 module Shippinglogic
@@ -48,12 +50,16 @@ module Shippinglogic
       options[:test] ? options[:test_url] : options[:production_url]
     end
 
-    def track(attributes = {})
-      @track ||= Track.new(self, attributes)
+    def cancel(attributes = {})
+      @cancel ||= Cancel.new(self, attributes)
     end
 
     def rate(attributes = {})
       @rate ||= Rate.new(self, attributes)
+    end
+
+    def track(attributes = {})
+      @track ||= Track.new(self, attributes)
     end
   end
 end
