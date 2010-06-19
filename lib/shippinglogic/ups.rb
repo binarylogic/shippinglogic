@@ -25,27 +25,29 @@ module Shippinglogic
       }
     end
 
-    attr_accessor :key, :password, :account, :options
+    attr_accessor :key, :password, :account, :number, :options
 
-    # Before you can use the UPS web services you need to provide 3 credentials:
+    # Before you can use the UPS web services you need to provide 4 credentials:
     #
     # 1. Your UPS access key
     # 2. Your UPS password
     # 3. Your UPS user ID
+    # 4. Your 6-character UPS account number
     #
-    #TODO Explain how to acquire those 3 credentials.
+    #TODO Explain how to acquire those 4 credentials.
     #
     # The last parameter allows you to modify the class options on an instance level. It accepts the
     # same options that the class level method #options accepts. If you don't want to change any of
     # them, don't supply this parameter.
-    def initialize(key, password, account, options = {})
+    def initialize(key, password, account, number, options = {})
       self.key = key
       self.password = password
       self.account = account
+      self.number = number
       self.options = self.class.options.merge(options)
     end
-    # A convenience method for accessing the endpoint URL for the UPS API.
 
+    # A convenience method for accessing the endpoint URL for the UPS API.
     def url
       options[:test] ? options[:test_url] : options[:production_url]
     end
