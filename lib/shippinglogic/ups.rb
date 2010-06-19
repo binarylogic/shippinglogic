@@ -60,6 +60,10 @@ module Shippinglogic
       @rate ||= Rate.new(self, attributes)
     end
 
+    def ship(attributes = {})
+      @ship ||= ShipConfirm.new(self, attributes)
+    end
+
     def track(attributes = {})
       @track ||= Track.new(self, attributes)
     end
