@@ -7,22 +7,11 @@ module Shippinglogic
         "/LabelRecovery"
       end
       
-      class Details
-        attr_accessor :format, :content
-        
-        def initialize(response)
-          return unless details = response.fetch(:label_results, {})[:label_image]
-          
-          self.format   = label[:label_image_format][:code]
-          self.content  = label[:graphic_image]
-        end
-      end
-      
       attribute :tracking_number, :string
       
       private
         def target
-          @target ||= Details.new(request(build_request))
+          @target ||= parse_response(request(build_request))
         end
         
         # Just building some XML to send off to USP using our various options
@@ -50,6 +39,11 @@ module Shippinglogic
             
             b.TrackingNumber tracking_number
           end
+        end
+        
+        def parse_response(response)
+          return unless details = response.fetch(:label_results, {})[:label_image]
+          Base64.decode64(details[:graphic_image])
         end
     end
   end
