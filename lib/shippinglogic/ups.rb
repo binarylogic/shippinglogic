@@ -60,8 +60,16 @@ module Shippinglogic
       @rate ||= Rate.new(self, attributes)
     end
 
+    def ship_confirm(attributes = {})
+      @ship_confirm ||= ShipConfirm.new(self, attributes)
+    end
+
+    def ship_accept(attributes = {})
+      @ship_accept ||= ShipAccept.new(self, attributes)
+    end
+
     def ship(attributes = {})
-      @ship ||= ShipConfirm.new(self, attributes)
+      @ship ||= ship_accept(:digest => ship_confirm(attributes).digest)
     end
 
     def track(attributes = {})
