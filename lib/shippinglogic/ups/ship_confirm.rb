@@ -5,6 +5,19 @@ module Shippinglogic
         "/ShipConfirm"
       end
       
+      class Details
+        attr_accessor :digest, :tracking_number, :rate, :currency
+        
+        def initialize(response)
+          self.digest           = response[:shipment_digest]
+          self.tracking_number  = response[:shipment_identification_number]
+          
+          charges       = response[:shipment_charges][:total_charges]
+          self.rate     = BigDecimal.new(charges[:monetary_value])
+          self.currency = charges[:currency_code]
+        end
+      end
+      
       # shipper options
       attribute :shipper_name,                :string
       attribute :shipper_phone_number,        :string
@@ -52,13 +65,9 @@ module Shippinglogic
       attribute :signature,                   :boolean,     :default => false
       attribute :saturday,                    :boolean,     :default => false
       
-      # misc options
-      #TODO Make use of this option by skipping the ShipAccept API call.
-      attribute :just_validate,               :boolean,     :default => false
-      
       private
         def target
-          @target ||= parse_response(request(build_request))
+          @target ||= Details.new(request(build_request))
         end
         
         def build_request
@@ -155,10 +164,6 @@ module Shippinglogic
               end
             end
           end
-        end
-        
-        def parse_response(response)
-          response[:shipment_digest]
         end
     end
   end
