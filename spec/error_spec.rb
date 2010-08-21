@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Shippinglogic Errors" do
   before(:each) do
-    @error = Shippinglogic::Error.new
+    @error = Shippinglogic::Error.new("", "")
   end
   
   it "should inherit from StandardError" do

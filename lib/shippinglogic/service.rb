@@ -36,7 +36,7 @@ module Shippinglogic
       # and do your magic. See the child classes for examples on how to define this method. It is very
       # important that you cache the result into a variable to avoid uneccessary requests.
       def target
-        raise Error.new("You need to implement a target method that the proxy class can delegate method calls to")
+        raise NotImplementedError.new("You need to implement a target method that the proxy class can delegate method calls to")
       end
   end
 end

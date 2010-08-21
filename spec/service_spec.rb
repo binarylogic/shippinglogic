@@ -18,6 +18,6 @@ describe "Shippinglogic Service" do
   
   it "should raise an error when accessing a nonexistent target" do
     service = Shippinglogic::Service.new(nil)
-    lambda{ service.target }.should raise_error(Shippinglogic::Error)
+    lambda{ service.target }.should raise_error(NotImplementedError)
   end
 end

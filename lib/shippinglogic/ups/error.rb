@@ -17,11 +17,8 @@ module Shippinglogic
     #     # to get the raw response from UPS
     #   end
     class Error < Shippinglogic::Error
-      attr_accessor :request, :response
-      
       def initialize(request, response)
-        self.request = request
-        self.response = response
+        super
         
         if response.blank?
           add_error("The response from UPS was blank.")

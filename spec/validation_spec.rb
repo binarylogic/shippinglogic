@@ -38,7 +38,8 @@ describe "Service Validation" do
     
     it "should rescue and append any Shippinglogic::Error messages" do
       service = ServiceWithValidation.new
-      error = Shippinglogic::Error.new("ERROR")
+      error = Shippinglogic::Error.new("", "")
+      error.add_error("ERROR")
       service.stub!(:target).and_return{ raise error }
       service.valid?.should_not raise_error(error.class)
       service.errors.size.should == 1
