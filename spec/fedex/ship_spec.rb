@@ -28,4 +28,10 @@ describe "FedEx Ship" do
     # exactly the same as shipping, and that works just fine. You would think a multi
     # billion dollar company would have decent web services.
   end
+  
+  it "should allow set the signature option" do
+    use_response(:ship_with_no_signature)
+    @shipment.signature = "NO_SIGNATURE_REQUIRED"
+    @shipment.rate.should == 35.53
+  end
 end

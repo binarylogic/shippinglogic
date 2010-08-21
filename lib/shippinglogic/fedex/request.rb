@@ -97,6 +97,24 @@ module Shippinglogic
                 b.Units package_dimension_units
               end
             end
+            
+            if respond_to?(:signature) && signature
+              self.special_services_requested << "SIGNATURE_OPTION"
+            end
+            
+            if (respond_to?(:special_services_requested) && special_services_requested.any?)
+              b.SpecialServicesRequested do
+                if special_services_requested.any?
+                  b.SpecialServiceTypes special_services_requested.join(",")
+                end
+              
+                if signature
+                  b.SignatureOptionDetail do
+                    b.OptionType signature
+                  end
+                end
+              end
+            end
           end
         end
         

@@ -4,6 +4,7 @@ Shippinglogic::FedEx.options[:test] = true
 
 Spec::Runner.configure do |config|
   config.before(:each) do
+    HTTParty::Request.response_directory = File.dirname(__FILE__) + "/responses"
     FakeWeb.clean_registry
     
     if File.exists?("#{SPEC_ROOT}/fedex/responses/_new.xml")

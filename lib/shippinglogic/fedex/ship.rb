@@ -181,20 +181,6 @@ module Shippinglogic
             build_authentication(b)
             build_version(b, "ship", VERSION[:major], VERSION[:intermediate], VERSION[:minor])
             
-            if special_services_requested.any? || signature
-              b.SpecialServicesRequested do
-                if special_services_requested.any?
-                  b.SpecialServiceTypes special_services_requested.join(",")
-                end
-              
-                if signature
-                  b.SignatureOptionDetail do
-                    b.OptionType signature
-                  end
-                end
-              end
-            end
-            
             b.RequestedShipment do
               b.ShipTimestamp ship_time.xmlschema if ship_time
               b.DropoffType dropoff_type if dropoff_type
