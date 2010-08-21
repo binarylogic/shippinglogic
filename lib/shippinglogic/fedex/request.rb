@@ -1,3 +1,5 @@
+require "builder"
+
 module Shippinglogic
   class FedEx
     # Methods relating to building and sending a request to FedEx's web services.
@@ -5,7 +7,7 @@ module Shippinglogic
       private
         # Convenience method for sending requests to FedEx
         def request(body)
-          real_class.post(base.options[:test] ? base.options[:test_url] : base.options[:production_url], :body => body)
+          real_class.post(base.url, :body => body)
         end
         
         # Convenience method to create a builder object so that our builder options are consistent across

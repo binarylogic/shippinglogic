@@ -3,4 +3,4 @@
 coverage
 rdoc
 pkg
-spec/fedex_credentials.yml
+spec/*_credentials.yml

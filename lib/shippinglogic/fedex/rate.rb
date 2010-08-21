@@ -199,16 +199,16 @@ module Shippinglogic
             delivered_by = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
             speed = case details[:service_type]
             when /overnight/i
-              1.day
+              86400 # 1.day
             when /2_day/i
-              2.days
+              172800 # 2.days
             else
-              3.days
+              259200 # 3.days
             end
             
             if meets_deadline?(delivered_by)
               service = Service.new
-              service.name = details[:service_type].titleize
+              service.name = details[:service_type].gsub("_", " ").gsub(/\b(\w)(\w*)/){ $1 + $2.downcase }
               service.type = details[:service_type]
               service.saturday = details[:applied_options] == "SATURDAY_DELIVERY"
               service.delivered_by = delivered_by

@@ -11,8 +11,9 @@ begin
     gem.homepage = "http://github.com/binarylogic/shippinglogic"
     gem.authors = ["Ben Johnson of Binary Logic"]
     gem.add_development_dependency "rspec"
-    gem.add_dependency "activesupport", ">= 2.2.0"
+    gem.add_development_dependency "fakeweb"
     gem.add_dependency "httparty", ">= 0.4.4"
+    gem.add_dependency "builder", ">= 2.1.2"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

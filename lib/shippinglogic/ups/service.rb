@@ -1,8 +1,8 @@
-require "shippinglogic/fedex/request"
-require "shippinglogic/fedex/response"
+require "shippinglogic/ups/request"
+require "shippinglogic/ups/response"
 
 module Shippinglogic
-  class FedEx
+  class UPS
     class Service < Shippinglogic::Service
       include Request
       include Response

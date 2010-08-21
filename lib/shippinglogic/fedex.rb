@@ -1,6 +1,4 @@
 require "shippinglogic/fedex/enumerations"
-require "shippinglogic/fedex/error"
-require "shippinglogic/fedex/proxy"
 require "shippinglogic/fedex/service"
 require "shippinglogic/fedex/cancel"
 require "shippinglogic/fedex/rate"
@@ -24,14 +22,14 @@ module Shippinglogic
     # * <tt>:production_url</tt> - the production URL for FedEx's webservices. (default: https://gateway.fedex.com:443/xml)
     def self.options
       @options ||= {
-        :test => defined?(Rails) && !Rails.env.production?,
+        :test => !!(defined?(Rails) && !Rails.env.production?),
         :production_url => "https://gateway.fedex.com:443/xml",
         :test_url => "https://gatewaybeta.fedex.com:443/xml"
       }
     end
-  
+
     attr_accessor :key, :password, :account, :meter, :options
-  
+
     # Before you can use the FedEx web services you need to provide 4 credentials:
     #
     # 1. Your fedex web service key
@@ -56,6 +54,11 @@ module Shippinglogic
       self.account = account
       self.meter = meter
       self.options = self.class.options.merge(options)
+    end
+    
+    # A convenience method for accessing the endpoint URL for the FedEx API.
+    def url
+      options[:test] ? options[:test_url] : options[:production_url]
     end
     
     def cancel(attributes = {})

@@ -1,3 +1,5 @@
+require "base64"
+
 module Shippinglogic
   class FedEx
     # An interface to the signature proof of delivery services provided by FedEx. Allows you to get an image
@@ -58,7 +60,7 @@ module Shippinglogic
         # in the response.
         def parse_response(response)
           signature = Signature.new
-          signature.image = Base64.decode64(response[:letter])
+          signature.image = response[:letter] && Base64.decode64(response[:letter])
           signature
         end
     end

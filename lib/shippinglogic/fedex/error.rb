@@ -16,8 +16,8 @@ module Shippinglogic
     #     # e.response
     #     # to get the raw response from fedex
     #   end
-    class Error < StandardError
-      attr_accessor :errors, :request, :response
+    class Error < Shippinglogic::Error
+      attr_accessor :request, :response
       
       def initialize(request, response)
         self.request = request
@@ -44,16 +44,6 @@ module Shippinglogic
             "was in an unexpected format. You might try glancing at the raw response by using the 'response' method on this error object."
           )
         end
-        
-        super(errors.collect { |error| error[:message].strip }.to_sentence)
-      end
-      
-      def add_error(error, code = nil)
-        errors << {:message => error, :code => code}
-      end
-      
-      def errors
-        @errors ||= []
       end
     end
   end
