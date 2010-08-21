@@ -19,10 +19,6 @@ Install the gem from rubyforge:
 
   sudo gem install shippinglogic
 
-Or from github:
-
-  sudo gem install binarylogic-shippinglogic
-
 Now just include it in your project and you are ready to go.
 
 You can also install this as a plugin:
@@ -36,30 +32,26 @@ See below for usage examples.
 What I think is unique about this library is it's usage / syntax:
   
   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
-  tracking_details = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
+  tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
   # => A proxy object that delegates calls to an array of Shippinglogic::FedEx::Track::Event objects
   
-  # this shows that the tracking object is a proxy for the underlying array
-  tracking_details.tracking_number
+  tracking.tracking_number
   # => "XXXXXXXXXXXXXXXXX"
   
-  tracking_details.tracking_number = "YYYYYYYYYYYYYYYYYY"
+  tracking.tracking_number = "YYYYYYYYYYYYYYYYYY"
   # => "YYYYYYYYYYYYYYYYYY"
   
-  tracking_details.class
-  # => Shippinglogic::FedEx::Track::Details
-  
-  tracking_details.status
+  tracking.status
   # => "Delivered"
   
-  tracking_details.signature_name
+  tracking.signature_name
   # => "KKING"
   
-  tracking_details.events.first
+  tracking.events.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
   #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
   
-  tracking_details.first.name
+  tracking.events.first.name
   # => "Delivered"
 
 == Calls to the web services are lazy
@@ -75,21 +67,21 @@ This is similar to how ActiveRecord's association proxies work. When you call "u
 You will notice above we assign the result of the 'track' method to a variable called 'tracking'. That object has more to it:
 
   # Initializing
-  tracking_details = fedex.track(:tracking_number => "XXXXXXXXXXXXX")
-  tracking_details.tracking_number
+  tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXX")
+  tracking.tracking_number
   # => "XXXXXXXXXXXXX"
   
   # Attribute accessors
-  tracking_details.tracking_number = "YYYYYYYYYYYYYYY"
-  tracking_details.tracking_number
+  tracking.tracking_number = "YYYYYYYYYYYYYYY"
+  tracking.tracking_number
   # => "YYYYYYYYYYYYYYY"
   
   # Mass attribute setting
-  tracking_details.attributes = {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
-  tracking_details.tracking_number
+  tracking.attributes = {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
+  tracking.tracking_number
   # => "ZZZZZZZZZZZZZZZZ"
   
-  tracking_details.attributes
+  tracking.attributes
   # => {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
 
 == Available services and their features

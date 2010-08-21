@@ -23,15 +23,9 @@ describe "FedEx Ship" do
   end
   
   it "should only validate the shipment" do
-    pending
-    DONT_SAVE = true
-    
-    @shipment.just_validate = true
-    
-    begin
-      @shipment.rate.should == 'fdsf'
-    rescue Shippinglogic::FedEx::Error => e
-      raise e.request
-    end
+    # An email from FedEx confirms that this service is only available in production,
+    # which makes no sense. So I can not test this, but the implmentation is
+    # exactly the same as shipping, and that works just fine. You would think a multi
+    # billion dollar company would have decent web services.
   end
 end

@@ -39,7 +39,7 @@ module Shippinglogic
     # multi package shipment is to increase the package_count option and keep the dimensions and weight the same for all packages. Then again,
     # the documentation for the FedEx web services is terrible, so I could be wrong. Any tests I tried resulted in an error though.
     #
-    # * <tt>packaging_type</tt> - one of PACKAGE_TYPES. (default: YOUR_PACKAGING)
+    # * <tt>packaging_type</tt> - one of Enumerations::PACKAGE_TYPES. (default: YOUR_PACKAGING)
     # * <tt>package_count</tt> - the number of packages in your shipment. (default: 1)
     # * <tt>package_weight</tt> - a single packages weight.
     # * <tt>package_weight_units</tt> - either LB or KG. (default: LB)
@@ -52,7 +52,7 @@ module Shippinglogic
     #
     # * <tt>currency_type</tt> - the type of currency. (default: nil, because FedEx will default to your account preferences)
     # * <tt>insured_value</tt> - the value you want to insure, if any. (default: nil)
-    # * <tt>payment_type</tt> - one of PAYMENT_TYPES. (default: SENDER)
+    # * <tt>payment_type</tt> - one of Enumerations::PAYMENT_TYPES. (default: SENDER)
     # * <tt>payor_account_number</tt> - if the account paying for this ship is different than the account you specified then
     #   you can specify that here. (default: your account number)
     # * <tt>payor_country</tt> - the country code for the account number. (default: US)
@@ -60,12 +60,12 @@ module Shippinglogic
     # === Delivery options
     #
     # * <tt>ship_time</tt> - a Time object representing when you want to ship the package. (default: Time.now)
-    # * <tt>service_type</tt> - one of SERVICE_TYPES, this is optional, leave this blank if you want a list of all
+    # * <tt>service_type</tt> - one of Enumerations::SERVICE_TYPES, this is optional, leave this blank if you want a list of all
     #   available services. (default: nil)
     # * <tt>delivery_deadline</tt> - whether or not to include estimated transit times. (default: true)
-    # * <tt>dropoff_type</tt> - one of DROP_OFF_TYPES. (default: REGULAR_PICKUP)
+    # * <tt>dropoff_type</tt> - one of Enumerations::DROP_OFF_TYPES. (default: REGULAR_PICKUP)
     # * <tt>special_services_requested</tt> - any exceptions or special services FedEx needs to be aware of, this should be
-    #   one or more of SPECIAL_SERVICES. (default: nil)
+    #   one or more of Enumerations::SPECIAL_SERVICES. (default: nil)
     #
     # === Misc options
     #
@@ -195,6 +195,7 @@ module Shippinglogic
           response[:rate_reply_details].collect do |details|
             shipment_detail = details[:rated_shipment_details].is_a?(Array) ? details[:rated_shipment_details].first : details[:rated_shipment_details]
             cost = shipment_detail[:shipment_rate_detail][:total_net_charge]
+            
             delivered_by = details[:delivery_timestamp] && Time.parse(details[:delivery_timestamp])
             speed = case details[:service_type]
             when /overnight/i

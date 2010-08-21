@@ -45,7 +45,7 @@ module Shippinglogic
           )
         end
         
-        super(errors.collect { |error| error[:message] }.to_sentence)
+        super(errors.collect { |error| error[:message].strip }.to_sentence)
       end
       
       def add_error(error, code = nil)

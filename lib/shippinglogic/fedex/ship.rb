@@ -34,9 +34,9 @@ module Shippinglogic
     #
     # === Label options
     #
-    # * <tt>label_format</tt> - one of LABEL_FORMATS. (default: COMMON2D)
-    # * <tt>label_file_type</tt> - one of LABEL_FILE_TYPES. (default: PDF)
-    # * <tt>label_stock_type</tt> - one of LABEL_STOCK_TYPES. (default: PAPER_8.5X11_TOP_HALF_LABEL)
+    # * <tt>label_format</tt> - one of Enumerations::LABEL_FORMATS. (default: COMMON2D)
+    # * <tt>label_file_type</tt> - one of Enumerations::LABEL_FILE_TYPES. (default: PDF)
+    # * <tt>label_stock_type</tt> - one of Enumerations::LABEL_STOCK_TYPES. (default: PAPER_8.5X11_TOP_HALF_LABEL)
     #
     # === Packaging options
     #
@@ -45,7 +45,7 @@ module Shippinglogic
     # multi package shipment is to increase the package_count option and keep the dimensions and weight the same for all packages. Then again,
     # the documentation for the FedEx web services is terrible, so I could be wrong. Any tests I tried resulted in an error though.
     #
-    # * <tt>packaging_type</tt> - one of PACKAGE_TYPES. (default: YOUR_PACKAGING)
+    # * <tt>packaging_type</tt> - one of Enumerations::PACKAGE_TYPES. (default: YOUR_PACKAGING)
     # * <tt>package_count</tt> - the number of packages in your shipment. (default: 1)
     # * <tt>package_weight</tt> - a single packages weight.
     # * <tt>package_weight_units</tt> - either LB or KG. (default: LB)
@@ -58,7 +58,7 @@ module Shippinglogic
     #
     # * <tt>currency_type</tt> - the type of currency. (default: nil, because FedEx will default to your account preferences)
     # * <tt>insured_value</tt> - the value you want to insure, if any. (default: nil)
-    # * <tt>payment_type</tt> - one of PAYMENT_TYPES. (default: SENDER)
+    # * <tt>payment_type</tt> - one of Enumerations::PAYMENT_TYPES. (default: SENDER)
     # * <tt>payor_account_number</tt> - if the account paying for this ship is different than the account you specified then
     #   you can specify that here. (default: your account number)
     # * <tt>payor_country</tt> - the country code for the account number. (default: US)
@@ -66,17 +66,17 @@ module Shippinglogic
     # === Delivery options
     #
     # * <tt>ship_time</tt> - a Time object representing when you want to ship the package. (default: Time.now)
-    # * <tt>service_type</tt> - one of SERVICE_TYPES, this is optional, leave this blank if you want a list of all
+    # * <tt>service_type</tt> - one of Enumerations::SERVICE_TYPES, this is optional, leave this blank if you want a list of all
     #   available services. (default: nil)
-    # * <tt>dropoff_type</tt> - one of DROP_OFF_TYPES. (default: REGULAR_PICKUP)
+    # * <tt>dropoff_type</tt> - one of Enumerations::DROP_OFF_TYPES. (default: REGULAR_PICKUP)
     # * <tt>special_services_requested</tt> - any exceptions or special services FedEx needs to be aware of, this should be
-    #   one or more of SPECIAL_SERVICES. (default: nil)
-    # * <tt>signature</tt> - one of SIGNATURE_OPTION_TYPES. (default: nil, which defaults to the service default)
+    #   one or more of Enumerations::SPECIAL_SERVICES. (default: nil)
+    # * <tt>signature</tt> - one of Enumerations::SIGNATURE_OPTION_TYPES. (default: nil, which defaults to the service default)
     #
     # === Misc options
     #
     # * <tt>just_validate</tt> - will tell FedEx to ONLY validate the shipment, not actually create it. (default: false)
-    # * <tt>rate_request_types</tt> - one or more of RATE_REQUEST_TYPES. (default: ACCOUNT)
+    # * <tt>rate_request_types</tt> - one or more of Enumerations::RATE_REQUEST_TYPES. (default: ACCOUNT)
     #
     # == Simple Example
     #
@@ -178,7 +178,20 @@ module Shippinglogic
           xml = b.tag!(just_validate ? "ValidateShipmentRequest" : "ProcessShipmentRequest", :xmlns => "http://fedex.com/ws/ship/v#{VERSION[:major]}") do
             build_authentication(b)
             build_version(b, "ship", VERSION[:major], VERSION[:intermediate], VERSION[:minor])
-            b.SpecialServicesRequested special_services_requested.join(",") if special_services_requested.any?
+            
+            if special_services_requested.any? || signature
+              b.SpecialServicesRequested do
+                if special_services_requested.any?
+                  b.SpecialServiceTypes special_services_requested.join(",")
+                end
+              
+                if signature
+                  b.SignatureOptionDetail do
+                    b.OptionType signature
+                  end
+                end
+              end
+            end
             
             b.RequestedShipment do
               b.ShipTimestamp ship_time.xmlschema if ship_time
@@ -209,12 +222,6 @@ module Shippinglogic
                 b.LabelFormatType label_format if label_format
                 b.ImageType label_file_type if label_file_type
                 b.LabelStockType label_stock_type if label_stock_type
-              end
-              
-              if signature
-                b.SignatureOptionDetail do
-                  b.OptionType signature
-                end
               end
               
               b.RateRequestTypes rate_request_types.join(",")

@@ -5,7 +5,7 @@ module Shippinglogic
     # == Accessor methods / options
     #
     # * <tt>tracking_number</tt> - the tracking number
-    # * <tt>deletion_control</tt> - one of DELETION_CONTROL (default: DELETE_ALL_PACKAGES)
+    # * <tt>deletion_control</tt> - one of Enumerations::DELETION_CONTROL (default: DELETE_ALL_PACKAGES)
     #
     # === Simple Example
     #

@@ -6,8 +6,8 @@ module Shippinglogic
     # == Accessor methods / options
     #
     # * <tt>tracking_number</tt> - the tracking number
-    # * <tt>image_type</tt> - one of SIGNATURE_IMAGE_TYPES. (default: LETTER)
-    # * <tt>image_file_type</tt> - one of LABEL_FILE_TYPES. (default: PDF)
+    # * <tt>image_type</tt> - one of Enumerations::SIGNATURE_IMAGE_TYPES. (default: LETTER)
+    # * <tt>image_file_type</tt> - one of Enumerations::LABEL_FILE_TYPES. (default: PDF)
     # * <tt>fax_number</tt> - if image_type is set to FAX you must provide a fax number here. (default: nil)
     #
     # === Simple Example

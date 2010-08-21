@@ -14,17 +14,17 @@ module Shippinglogic
     #   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
     #   tracking_details = fedex.track(:tracking_number => "my number")
     #
-    #   tracking_details.status
+    #   tracking.status
     #   # => "Delivered"
     #   
-    #   tracking_details.signature_name
+    #   tracking.signature_name
     #   # => "KKING"
     #   
-    #   tracking_details.events.first
+    #   tracking.events.first
     #   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
     #   #     @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
     #   
-    #   tracking_details.events.first.name
+    #   tracking.events.first.name
     #   # => "Delivered"
     #
     # === Note
