@@ -81,7 +81,7 @@ module Shippinglogic
     #     :shipper_postal_code => "10007",
     #     :shipper_country => "US",
     #     :recipient_postal_code => "75201",
-    #     :recipient_country_code => "US",
+    #     :recipient_country => "US",
     #     :package_weight => 24,
     #     :package_length => 12,
     #     :package_width => 12,
