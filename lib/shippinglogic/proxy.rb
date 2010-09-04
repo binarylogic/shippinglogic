@@ -1,7 +1,11 @@
 module Shippinglogic
   class Proxy
     alias_method :real_class, :class
-    instance_methods.each { |m| undef_method m unless m =~ /^(__|real_class$|send$|object_id|respond_to\?$)/ }
+    instance_methods.each do |m|
+      if (m =~ /^(__|respond_to_missing\?|real_class$|send$|object_id|respond_to\?$)/).nil?
+        undef_method(m)
+      end
+    end
     
     attr_accessor :target
     
