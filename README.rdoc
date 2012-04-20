@@ -1,5 +1,7 @@
 = Shippinglogic
 
+== <b>Please note, this library is no longer supported and is being deprecated. A replacement is being worked on that will allow for a seamless transition should use choose to do so.</b>
+
 The goal of this library is to provide simple and straight forward interfaces to the various shipping web services: FedEx, UPS, USPS, etc. (Only FedEx is supported at this time)
 
 == Helpful links
@@ -30,27 +32,27 @@ See below for usage examples.
 == Simple tracking example
 
 What I think is unique about this library is it's usage / syntax:
-  
+
   fedex = Shippinglogic::FedEx.new(key, password, account, meter)
   tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXXXXXX")
   # => A proxy object that delegates calls to an array of Shippinglogic::FedEx::Track::Event objects
-  
+
   tracking.tracking_number
   # => "XXXXXXXXXXXXXXXXX"
-  
+
   tracking.tracking_number = "YYYYYYYYYYYYYYYYYY"
   # => "YYYYYYYYYYYYYYYYYY"
-  
+
   tracking.status
   # => "Delivered"
-  
+
   tracking.signature_name
   # => "KKING"
-  
+
   tracking.events.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
   #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
-  
+
   tracking.events.first.name
   # => "Delivered"
 
@@ -70,17 +72,17 @@ You will notice above we assign the result of the 'track' method to a variable c
   tracking = fedex.track(:tracking_number => "XXXXXXXXXXXXX")
   tracking.tracking_number
   # => "XXXXXXXXXXXXX"
-  
+
   # Attribute accessors
   tracking.tracking_number = "YYYYYYYYYYYYYYY"
   tracking.tracking_number
   # => "YYYYYYYYYYYYYYY"
-  
+
   # Mass attribute setting
   tracking.attributes = {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
   tracking.tracking_number
   # => "ZZZZZZZZZZZZZZZZ"
-  
+
   tracking.attributes
   # => {:tracking_number => "ZZZZZZZZZZZZZZZZ"}
 
@@ -110,12 +112,12 @@ What's nice about having an object is that you can pass it around. Let's say you
     def new
       @tracking_details = fedex.track(params[:tracking])
     end
-    
+
     def create
       @tracking_details = fedex.track(params[:tracking])
       render :action => :new if !@tracking.successful?
     end
-    
+
     private
       def fedex
         @fedex ||= Shippinglogic::FedEx.new(key, password, account, meter)
@@ -123,7 +125,7 @@ What's nice about having an object is that you can pass it around. Let's say you
   end
 
 That's pretty simple. Now check out your form:
-  
+
   # new.html.haml
   - form_for @tracking_details do |f|
     = f.error_messages
@@ -149,11 +151,11 @@ Here is what I did in an application of mine and it worked out great. I also hav
     class Service
       attr_accessor :carrier, :name, "delivered_by, :rate
     end
-    
+
     def services
       @services ||= fedex_services # + some_other_services
     end
-    
+
     private
       def fedex_services
         rate_options = {} # replace me with your own options accepted by Shippinglogic::FedEx::Rate
@@ -170,4 +172,4 @@ Here is what I did in an application of mine and it worked out great. I also hav
 
 == Copyright
 
-Copyright (c) 2009 {Ben Johnson of Binary Logic}[http://www.binarylogic.com], released under the MIT license  
+Copyright (c) 2009 {Ben Johnson of Binary Logic}[http://www.binarylogic.com], released under the MIT license
