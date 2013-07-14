@@ -27,7 +27,7 @@ describe "FedEx Track" do
     event = track_details.events.first
     event.name.should == "Delivered"
     event.type.should == "DL"
-    event.occured_at.should == Time.parse("Mon Dec 08 10:43:37 -0500 2008")
+    event.occurred_at.should == Time.parse("Mon Dec 08 10:43:37 -0500 2008")
     event.city.should == "Sacramento"
     event.state.should == "CA"
     event.postal_code.should == "95817"

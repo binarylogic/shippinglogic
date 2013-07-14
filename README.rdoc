@@ -51,7 +51,7 @@ What I think is unique about this library is it's usage / syntax:
 
   tracking.events.first
   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
-  #    @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
+  #    @city="Sacramento", @type="DL", @country="US", @occurred_at=Mon Dec 08 10:43:37 -0500 2008>
 
   tracking.events.first.name
   # => "Delivered"
@@ -139,7 +139,7 @@ Then your results:
   - @tracking_details.events.each do |event|
     .event
       .name= event.name
-      .occured_at= event.occured_at.to_s(:long)
+      .occurred_at= event.occurred_at.to_s(:long)
       .location== #{event.city}, #{event.state} #{event.postal_code}, #{event.country}
       .residential= event.residential ? "Yes" : "No"
 
