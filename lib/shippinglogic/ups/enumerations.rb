@@ -21,7 +21,7 @@ module Shippinglogic
         "2b" => "Medium Express Box",
         "2c" => "Large Express Box"
       }
-      
+
       # delivery options
       DROPOFF_TYPES = {
         "01" => "Daily Pickup",

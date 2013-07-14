@@ -22,7 +22,7 @@ module Shippinglogic
     #   
     #   tracking.events.first
     #   # => #<Shippinglogic::FedEx::Track::Event @postal_code="95817", @name="Delivered", @state="CA", @residential=false,
-    #   #     @city="Sacramento", @type="DL", @country="US", @occured_at=Mon Dec 08 10:43:37 -0500 2008>
+    #   #     @city="Sacramento", @type="DL", @country="US", @occurred_at=Mon Dec 08 10:43:37 -0500 2008>
     #   
     #   tracking.events.first.name
     #   # => "Delivered"
@@ -36,7 +36,7 @@ module Shippinglogic
     class Track < Service
       class Details
         # Each tracking result is an object of this class
-        class Event; attr_accessor :name, :type, :occured_at, :city, :state, :postal_code, :country, :residential; end
+        class Event; attr_accessor :name, :type, :occurred_at, :city, :state, :postal_code, :country, :residential; end
         
         attr_accessor :origin_city,
           :origin_state,
@@ -82,7 +82,7 @@ module Shippinglogic
             event = Event.new
             event.name = details[:event_description]
             event.type = details[:event_type]
-            event.occured_at = Time.parse(details[:timestamp])
+            event.occurred_at = Time.parse(details[:timestamp])
             event.city = details[:address][:city]
             event.state = details[:address][:state_or_province_code]
             event.postal_code = details[:address][:postal_code]
