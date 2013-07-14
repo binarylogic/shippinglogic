@@ -215,8 +215,7 @@ module Shippinglogic
 
           response[:rated_shipment].collect do |details|
             service = Service.new
-            # service.name = Enumerations::SERVICE_TYPES[details[:service][:code]]
-            service.name = details[:service][:code]
+            service.name = Enumerations::SERVICE_TYPES[details[:service][:code]]
             service.type = service.name
             service.speed = (days = details[:guaranteed_days_to_delivery]) && (days.to_i * 86400)
             service.rate = BigDecimal.new(details[:total_charges][:monetary_value])
